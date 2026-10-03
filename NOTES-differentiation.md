@@ -48,6 +48,7 @@ Kaynak: Lumosity'nin Play Store yorumları (~155 bin satırlık yerel döküm; t
 | Star Search | 5 → 7 renk |
 | Familiar Faces | İsim 24 → 36, sipariş 6 → 9 (kurabiye, dondurma, meyve suyu) |
 | Word Bubbles | Kök 8 → 56, sözcük ~830. Baloncuklar artık sabit yuvalara (4×3) yerleşir, çakışmıyor; uzunluğa göre renk/boyut, kök zamanlayıcı çubuğu, "en uzun sözcük" rozeti. Süre artık 90 sn'ye sabitli değil |
+| Arayüz | PRO etiketleri kaldırıldı (kütüphane kartları, fiyat sayfası tek "herkes için ücretsiz" kartı). Oyun ekranı pencere yüksekliğine uyar: panolar `dvh`'ye göre küçülür, kısa ekranlarda yön tuşları ve cevap butonları görünür kalır (Penguin Pursuit'te doğrulandı) |
 | Ortak | `useLater` kancası: 10 oyunda sonraki deneme zamanlayıcıları duraklatmada donar, oyun kapanınca temizlenir. Pinball Recall interval sızıntısı kapatıldı |
 
 ## Bilinen eksikler / sonraki adımlar

@@ -30,7 +30,6 @@ export default function Library() {
             <motion.div className={`card glass ${ok ? 'live' : 'soon'}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }} whileHover={ok ? { y: -4 } : undefined}>
               <div className="card-top">
                 <GameIcon category={g.category} color={cat.color} />
-                {g.premium && <span className="tag-premium">PRO</span>}
               </div>
               <h3>{g.name}</h3>
               <span className="muted small">{t(cat.name)} · {t(g.paradigm)}</span>
