@@ -4,6 +4,7 @@ import type { GameProps } from '../engine/types'
 import { makeRng } from '../core/rng'
 import { mmFlashMs, mmGridSize, mmNextK, MM_MIN_K } from '../core/adaptive'
 import { sfx } from '../core/audio'
+import { useT } from '../core/store'
 
 type Phase = 'ready' | 'show' | 'recall' | 'feedback'
 const MAX_ERRORS = 3
@@ -11,13 +12,13 @@ const READY_MS = 600
 const FEEDBACK_MS = 900
 
 // Hafif döşeme: CSS geçişi + memo; GameShell'in 100 ms'lik yeniden render'ı döşemeleri etkilemez
-const Tile = memo(function Tile({ i, on, wrong, miss, disabled, onPick }: {
-  i: number; on: boolean; wrong: boolean; miss: boolean; disabled: boolean; onPick: (i: number) => void
+const Tile = memo(function Tile({ i, on, wrong, miss, disabled, onPick, label }: {
+  label: string; i: number; on: boolean; wrong: boolean; miss: boolean; disabled: boolean; onPick: (i: number) => void
 }) {
   return (
     <button
       className={`mm-cell ${on ? 'on' : ''} ${wrong ? 'wrong' : ''} ${miss ? 'miss' : ''}`}
-      aria-label={`tile ${i + 1}`}
+      aria-label={`${label} ${i + 1}`}
       onClick={() => onPick(i)}
       disabled={disabled}
     />
@@ -25,6 +26,7 @@ const Tile = memo(function Tile({ i, on, wrong, miss, disabled, onPick }: {
 })
 
 export default function MemoryMatrix({ session, paused, seed, startLevel }: GameProps) {
+  const t = useT()
   const [round, setRound] = useState(0)
   const [k, setK] = useState(Math.max(MM_MIN_K, startLevel || MM_MIN_K))
   const [phase, setPhase] = useState<Phase>('ready')
@@ -115,7 +117,7 @@ export default function MemoryMatrix({ session, paused, seed, startLevel }: Game
 
   return (
     <div className="mm">
-      <div className="mm-info muted">Round {round + 1} · {k} tiles</div>
+      <div className="mm-info muted">{t({ tr: `Tur ${round + 1} · ${k} kare`, en: `Round ${round + 1} · ${k} tiles` })}</div>
       <motion.div
         className="mm-grid"
         style={{ gridTemplateColumns: `repeat(${grid}, 1fr)` }}
@@ -135,11 +137,12 @@ export default function MemoryMatrix({ session, paused, seed, startLevel }: Game
               miss={showMiss}
               disabled={phase !== 'recall'}
               onPick={onCell}
+              label={t({ tr: 'kare', en: 'tile' })}
             />
           )
         })}
       </motion.div>
-      <div className="mm-errors" aria-label="errors">
+      <div className="mm-errors" aria-label={t({ tr: 'hatalar', en: 'errors' })}>
         {Array.from({ length: MAX_ERRORS }, (_, i) => (
           <span key={i} className={`dot ${i < wrong.length ? 'used' : ''}`} />
         ))}

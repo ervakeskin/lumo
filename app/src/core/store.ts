@@ -30,6 +30,7 @@ export interface Profile {
 interface Store {
   lang: 'tr' | 'en'
   muted: boolean
+  theme: 'dark' | 'light'
   plays: PlayRecord[]
   best: Record<string, number>
   lastLevel: Record<string, number>
@@ -39,6 +40,7 @@ interface Store {
   swaps: Record<string, string[]>
   setLang: (l: 'tr' | 'en') => void
   setMuted: (m: boolean) => void
+  setTheme: (t: 'dark' | 'light') => void
   setProfile: (p: Profile) => void
   addFit: (f: FitResult) => void
   swapOut: (day: string, gameId: string) => void
@@ -50,6 +52,7 @@ export const useStore = create<Store>()(
     (set, get) => ({
       lang: 'tr',
       muted: false,
+      theme: 'dark',
       plays: [],
       best: {},
       lastLevel: {},
@@ -58,6 +61,7 @@ export const useStore = create<Store>()(
       swaps: {},
       setLang: (lang) => set({ lang }),
       setMuted: (muted) => set({ muted }),
+      setTheme: (theme) => set({ theme }),
       setProfile: (profile) => set({ profile }),
       addFit: (f) => set((s) => ({ fits: [...s.fits, f].slice(-20) })),
       swapOut: (day, gameId) => set((s) => ({ swaps: { [day]: [...(s.swaps[day] ?? []), gameId] } })),

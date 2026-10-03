@@ -5,20 +5,20 @@ import { makeRng } from '../core/rng'
 import { BALL_R, H, W, genBumpers, pinballBumperCount, pinballShowMs, pinballSlots, simulate, type Bumper, type SimResult } from '../core/pinball'
 import { sfx } from '../core/audio'
 import { useT } from '../core/store'
-import { Feed, SHAKE, type Msg, useLater } from '../components/GameBits'
+import { Feed, SHAKE, type Msg, useLater, progressFor } from '../components/GameBits'
 
 const levelOf = (round: number) => (round < 4 ? 1 : round < 9 ? 2 : 3)
 const GUESS_MS = 12000
 type Phase = 'show' | 'guess' | 'reveal'
 interface Round { bumpers: Bumper[]; x0: number; vx0: number; slots: number; sim: SimResult }
 
-export default function PinballRecall({ session, paused, seed }: GameProps) {
+export default function PinballRecall({ session, paused, seed, startLevel }: GameProps) {
   const t = useT()
   const later = useLater(paused)
   const ivRef = useRef<ReturnType<typeof setInterval>>(undefined)
   useEffect(() => () => clearInterval(ivRef.current), [])
   const rng = useRef(makeRng(seed)).current
-  const S = useRef({ round: 0, shownAt: 0, msgId: 0, answered: false })
+  const S = useRef({ round: progressFor(levelOf, startLevel), shownAt: 0, msgId: 0, answered: false })
   const make = (round: number): Round => {
     const lv = levelOf(round)
     const slots = pinballSlots(lv)
@@ -27,12 +27,12 @@ export default function PinballRecall({ session, paused, seed }: GameProps) {
     const vx0 = (rng.next() - 0.5) * 0.2
     return { bumpers, x0, vx0, slots, sim: simulate(bumpers, x0, vx0, slots) }
   }
-  const [rd, setRd] = useState<Round>(() => make(0))
+  const [rd, setRd] = useState<Round>(() => make(S.current.round))
   const [phase, setPhase] = useState<Phase>('show')
   const [ball, setBall] = useState<[number, number]>([rd.x0, BALL_R])
   const [chosen, setChosen] = useState<number | null>(null)
   const [msg, setMsg] = useState<Msg | null>(null)
-  const [leftMs, setLeftMs] = useState(pinballShowMs(1))
+  const [leftMs, setLeftMs] = useState(pinballShowMs(levelOf(S.current.round)))
   const shake = useAnimationControls()
   const level = levelOf(S.current.round)
 
@@ -97,7 +97,7 @@ export default function PinballRecall({ session, paused, seed }: GameProps) {
         </span>
       </div>
       <motion.div className="pb-board glass" animate={shake}>
-        <svg viewBox={`0 0 ${W} ${H}`} className="pb-svg" aria-label="pinball table">
+        <svg viewBox={`0 0 ${W} ${H}`} className="pb-svg" aria-label={t({ tr: 'langırt masası', en: 'pinball table' })}>
           {slotBtns.map((i) => <rect key={i} x={i * slotW} y={H - 0.14} width={slotW} height={0.14} className={`pb-slot ${chosen === i ? (i === rd.sim.slot ? 'ok' : 'bad') : phase === 'reveal' && i === rd.sim.slot ? 'ok' : ''}`} onClick={() => guess(i)} />)}
           {slotBtns.map((i) => <text key={`t${i}`} x={i * slotW + slotW / 2} y={H - 0.05} className="pb-slot-n" textAnchor="middle" pointerEvents="none">{i + 1}</text>)}
           {bumpersVisible && rd.bumpers.map((b, i) => <g key={i}><circle cx={b.x} cy={b.y} r={b.r} className="pb-bumper" /><circle cx={b.x} cy={b.y} r={b.r * 0.55} className="pb-bumper-in" /></g>)}

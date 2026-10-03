@@ -78,7 +78,7 @@ export default function StarSearch({ session, paused, seed, startLevel }: GamePr
       </div>
       <motion.div className="sky-board glass" animate={shake} style={{ gridTemplateColumns: `repeat(${tr.cols}, 1fr)` }}>
         {tr.items.map((it, i) => (
-          <button key={i} className={`sky-cell ${hit === i ? 'hit' : ''}`} style={{ transform: `translate(${tr.pos[i][0] * 30}%, ${tr.pos[i][1] * 30}%)` }} onClick={() => finish(i)} aria-label={`star ${i + 1}`}>
+          <button key={i} className={`sky-cell ${hit === i ? 'hit' : ''}`} style={{ transform: `translate(${tr.pos[i][0] * 30}%, ${tr.pos[i][1] * 30}%)` }} onClick={() => finish(i)} aria-label={`${t({ tr: 'yıldız', en: 'star' })} ${i + 1}`}>
             <svg viewBox="0 0 100 100" width="100%" style={{ transform: `rotate(${it.rot}deg)` }}><path d={it.shape === 1 ? STAR4 : STAR5} fill={COLORS[it.color % COLORS.length]} strokeLinejoin="round" /></svg>
           </button>
         ))}

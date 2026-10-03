@@ -10,7 +10,9 @@ import { Login, Signup } from './pages/AuthPages'
 import Onboarding from './pages/Onboarding'
 import FitTest from './pages/FitTest'
 import FitResult from './pages/FitResult'
+import { useEffect } from 'react'
 import { useAuth } from './core/auth'
+import { useStore } from './core/store'
 
 function Root() {
   return (
@@ -54,5 +56,7 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
+  const theme = useStore((s) => s.theme)
+  useEffect(() => { document.documentElement.dataset.theme = theme }, [theme])
   return <RouterProvider router={router} />
 }

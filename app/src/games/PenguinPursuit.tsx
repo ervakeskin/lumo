@@ -5,7 +5,7 @@ import { makeRng } from '../core/rng'
 import { genMaze, mazeSize, pathTo, pickFish, rivalMs, step, type Cell, type MDir, type Maze } from '../core/maze'
 import { sfx } from '../core/audio'
 import { useT } from '../core/store'
-import { DPad, Feed, SHAKE, dirOfKey, useKeys, type Msg, useLater } from '../components/GameBits'
+import { DPad, Feed, SHAKE, dirOfKey, useKeys, type Msg, useLater, progressFor } from '../components/GameBits'
 
 interface Round { maze: Maze; player: Cell; rival: Cell; fish: Cell; rivalPath: Cell[] }
 const levelOf = (wins: number) => (wins < 2 ? 1 : wins < 5 ? 2 : 3)
@@ -18,12 +18,12 @@ function makeRound(level: number, rng: ReturnType<typeof makeRng>): Round {
   return { maze, player, rival, fish, rivalPath: pathTo(maze, rival, fish) }
 }
 
-export default function PenguinPursuit({ session, paused, seed }: GameProps) {
+export default function PenguinPursuit({ session, paused, seed, startLevel }: GameProps) {
   const t = useT()
   const later = useLater(paused)
   const rng = useRef(makeRng(seed)).current
-  const S = useRef({ wins: 0, round: 0, shownAt: performance.now(), over: false, msgId: 0, rivalStep: 0 })
-  const [rd, setRd] = useState<Round>(() => makeRound(1, rng))
+  const S = useRef({ wins: progressFor(levelOf, startLevel), round: 0, shownAt: performance.now(), over: false, msgId: 0, rivalStep: 0 })
+  const [rd, setRd] = useState<Round>(() => makeRound(levelOf(S.current.wins), rng))
   const rdRef = useRef(rd)
   const [pl, setPl] = useState<Cell>(rd.player)
   const plRef = useRef<Cell>(rd.player)

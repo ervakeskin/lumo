@@ -180,16 +180,16 @@ export default function Raindrops({ session, paused, seed }: GameProps) {
             <motion.i key={f.id} className={`rd-fx ${f.good ? 'good' : 'bad'}`} style={{ left: `${f.x}%`, top: f.y }} initial={{ scale: 0.3, opacity: 0.9 }} animate={{ scale: 2.4, opacity: 0 }} transition={{ duration: 0.6 }} />
           ))}
         </AnimatePresence>
-        <div className="rd-water" style={{ height: `${6 + water * 13}%` }} aria-label={`water ${water}/${MAX_WATER}`} />
+        <div className="rd-water" style={{ height: `${6 + water * 13}%` }} aria-label={`${t({ tr: 'su', en: 'water' })} ${water}/${MAX_WATER}`} />
       </div>
 
       <motion.div key={shakeKey} className="rd-entry" animate={shakeKey ? { x: [0, -8, 8, -5, 5, 0] } : {}} transition={{ duration: 0.3 }}>
         <div className="rd-buf" aria-live="polite">{buffer || <span className="muted">{t({ tr: 'cevabı yaz', en: 'type the answer' })}</span>}</div>
         <div className="rd-pad">
           {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((k) => <button key={k} className="btn ghost" onClick={() => press(k)}>{k}</button>)}
-          <button className="btn ghost" onClick={() => press('back')} aria-label="backspace">⌫</button>
+          <button className="btn ghost" onClick={() => press('back')} aria-label={t({ tr: 'sil', en: 'backspace' })}>⌫</button>
           <button className="btn ghost" onClick={() => press('0')}>0</button>
-          <button className="btn primary" onClick={() => press('enter')} aria-label="enter">↵</button>
+          <button className="btn primary" onClick={() => press('enter')} aria-label={t({ tr: 'gönder', en: 'enter' })}>↵</button>
         </div>
       </motion.div>
     </div>

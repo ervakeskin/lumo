@@ -6,18 +6,18 @@ import { tidalLevel, tidalLimitMs, tidalNext, type TItem } from '../core/tidal'
 import { sfx } from '../core/audio'
 import { useT } from '../core/store'
 import { Glyph, hsl } from '../components/Glyphs'
-import { Feed, SHAKE, StreakBar, useKeys, useLater, type Msg } from '../components/GameBits'
+import { Feed, SHAKE, StreakBar, useKeys, useLater, progressFor, type Msg } from '../components/GameBits'
 
 const REVEAL_MS = 650
 
 interface Wave { item: TItem; isOld: boolean; n: number }
 
-export default function TidalTreasures({ session, paused, seed }: GameProps) {
+export default function TidalTreasures({ session, paused, seed, startLevel }: GameProps) {
   const t = useT()
   const later = useLater(paused)
   const rng = useRef(makeRng(seed)).current
-  const S = useRef({ n: 0, seen: [] as TItem[], answered: false, shownAt: 0, streak: 0, msgId: 0 })
-  const [wave, setWave] = useState<Wave>(() => ({ ...tidalNext([], 0, rng), n: 0 }))
+  const S = useRef({ n: progressFor(tidalLevel, startLevel), seen: [] as TItem[], answered: false, shownAt: 0, streak: 0, msgId: 0 })
+  const [wave, setWave] = useState<Wave>(() => ({ ...tidalNext([], S.current.n, rng), n: S.current.n }))
   const [reveal, setReveal] = useState<null | boolean>(null) // null: karar bekleniyor · true/false: doğru/yanlış
   const [found, setFound] = useState(0)
   const [streak, setStreak] = useState(0)

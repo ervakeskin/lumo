@@ -5,16 +5,16 @@ import { makeRng } from '../core/rng'
 import { genPuzzle, moveLimit, passesGoal, slidePath, type Dir, type Pos, type Puzzle } from '../core/slide'
 import { sfx } from '../core/audio'
 import { useT } from '../core/store'
-import { DPad, Feed, SHAKE, dirOfKey, useKeys, type Msg, useLater } from '../components/GameBits'
+import { DPad, Feed, SHAKE, dirOfKey, useKeys, type Msg, useLater, progressFor } from '../components/GameBits'
 
 const levelOf = (solved: number) => (solved < 3 ? 1 : solved < 8 ? 2 : 3)
 
-export default function PiratePassage({ session, paused, seed }: GameProps) {
+export default function PiratePassage({ session, paused, seed, startLevel }: GameProps) {
   const t = useT()
   const later = useLater(paused)
   const rng = useRef(makeRng(seed)).current
-  const S = useRef({ solved: 0, moves: 0, shownAt: performance.now(), busy: false, msgId: 0, over: false })
-  const [pz, setPz] = useState<Puzzle>(() => genPuzzle(1, rng))
+  const S = useRef({ solved: progressFor(levelOf, startLevel), moves: 0, shownAt: performance.now(), busy: false, msgId: 0, over: false })
+  const [pz, setPz] = useState<Puzzle>(() => genPuzzle(levelOf(S.current.solved), rng))
   const pzRef = useRef(pz)
   const [pos, setPos] = useState<Pos>(pz.start)
   const posRef = useRef<Pos>(pz.start)

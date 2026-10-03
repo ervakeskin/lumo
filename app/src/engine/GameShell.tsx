@@ -7,6 +7,7 @@ import { sfx, setMuted } from '../core/audio'
 import { median } from '../core/adaptive'
 import { useStore, useT, type PlayRecord } from '../core/store'
 import type { GameProps, Session, TrialResult } from './types'
+import Toggles from '../components/Toggles'
 import BackButton from '../components/BackButton'
 import { NEW_STEPS } from '../games/steps'
 import ResultScreen, { type ResultData } from './ResultScreen'
@@ -156,6 +157,7 @@ export default function GameShell({ game, onReplay, fit }: { game: GameMeta; onR
       <header className="hud">
         <BackButton to="/oyunlar" replace />
         <div className="hud-title" style={{ color: cat.color }}>{game.name}</div>
+        <div className="hud-tools"><Toggles theme={false} /></div>
         <div className="hud-score" aria-live="polite">{score.current.toLocaleString(lang)}</div>
         {phase === 'playing' && (
           <button className="btn ghost" onClick={() => setPaused((p) => !p)}>

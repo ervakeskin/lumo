@@ -10,13 +10,13 @@ import { Feed, SHAKE, type Msg, useLater } from '../components/GameBits'
 
 const kFor = (round: number) => Math.min(6, 2 + Math.floor(round / 2))
 
-export default function FamiliarFaces({ session, paused, seed }: GameProps) {
+export default function FamiliarFaces({ session, paused, seed, startLevel }: GameProps) {
   const t = useT()
   const later = useLater(paused)
   const lang = useLang()
   const rng = useRef(makeRng(seed)).current
-  const S = useRef({ round: 0, qi: 0, shownAt: 0, msgId: 0, answered: false })
-  const [customers, setCustomers] = useState<Customer[]>(() => makeCustomers(kFor(0), rng))
+  const S = useRef({ round: startLevel >= 3 ? Math.min(8, (startLevel - 2) * 2) : 0, qi: 0, shownAt: 0, msgId: 0, answered: false })
+  const [customers, setCustomers] = useState<Customer[]>(() => makeCustomers(kFor(S.current.round), rng))
   const [qs, setQs] = useState<Question[]>([])
   const [phase, setPhase] = useState<'study' | 'test'>('study')
   const [qi, setQi] = useState(0)

@@ -53,6 +53,13 @@ export function useLater(paused: boolean) {
   }
 }
 
+/** Kayıtlı seviyeden devam: o seviyeyi veren en küçük ilerleme sayacı (tur/galibiyet/çözüm sayısı). */
+export function progressFor(levelOf: (n: number) => number, level: number, cap = 60): number {
+  if (!level || level <= 1) return 0
+  for (let n = 0; n <= cap; n++) if (levelOf(n) >= level) return n
+  return cap
+}
+
 /** Blok tabanlı seviye: her `block` denemede doğruluğa göre (≥%85 ↑, <%60 ↓). */
 export function useLeveler(start: number, block = 10, max = 3) {
   const [level, setLevel] = useState(start >= 1 && start <= max ? start : 1)

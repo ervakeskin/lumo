@@ -4,22 +4,22 @@ import type { GameProps } from '../engine/types'
 import { makeRng } from '../core/rng'
 import { genSeeds, idealDivider, seedCount, seedTol, splitDiff, type Seed } from '../core/seeds'
 import { useT } from '../core/store'
-import { Feed, SHAKE, useKeys, type Msg, useLater } from '../components/GameBits'
+import { Feed, SHAKE, useKeys, type Msg, useLater, progressFor } from '../components/GameBits'
 
 const levelOf = (round: number) => (round < 3 ? 1 : round < 8 ? 2 : 3)
 const limitMs = (round: number) => Math.max(6000, 14000 - round * 300)
 
-export default function SplittingSeeds({ session, paused, seed }: GameProps) {
+export default function SplittingSeeds({ session, paused, seed, startLevel }: GameProps) {
   const t = useT()
   const later = useLater(paused)
   const rng = useRef(makeRng(seed)).current
-  const S = useRef({ round: 0, shownAt: performance.now(), answered: false, msgId: 0 })
+  const S = useRef({ round: progressFor(levelOf, startLevel), shownAt: performance.now(), answered: false, msgId: 0 })
   const make = (r: number) => genSeeds(seedCount(r), r % 2 === 0 ? 'cluster' : 'scatter', rng)
-  const [seeds, setSeeds] = useState<Seed[]>(() => make(0))
+  const [seeds, setSeeds] = useState<Seed[]>(() => make(S.current.round))
   const seedsRef = useRef(seeds)
   const [div, setDiv] = useState(0.5)
   const divRef = useRef(0.5)
-  const [round, setRound] = useState(0)
+  const [round, setRound] = useState(S.current.round)
   const [reveal, setReveal] = useState<{ left: number; right: number; ideal: number } | null>(null)
   const [msg, setMsg] = useState<Msg | null>(null)
   const [resumeKey, setResumeKey] = useState(0)
@@ -83,7 +83,7 @@ export default function SplittingSeeds({ session, paused, seed }: GameProps) {
         {reveal && <div className="ss-counts"><b>{reveal.left}</b><b>{reveal.right}</b></div>}
         <div className="lim-clock" key={`${round}-${resumeKey}`}><i style={{ animationDuration: `${limit}ms`, animationPlayState: paused || reveal ? 'paused' : 'running' }} /></div>
       </motion.div>
-      <input className="ss-range" type="range" min="30" max="970" value={Math.round(div * 1000)} onChange={(e) => move(Number(e.target.value) / 1000)} aria-label="divider" disabled={!!reveal} />
+      <input className="ss-range" type="range" min="30" max="970" value={Math.round(div * 1000)} onChange={(e) => move(Number(e.target.value) / 1000)} aria-label={t({ tr: 'bölücü çizgi', en: 'divider' })} disabled={!!reveal} />
       <Feed msg={msg} />
       <button className="btn primary big" onClick={submit} disabled={!!reveal}>{t({ tr: 'Böl ✓', en: 'Split ✓' })} <kbd className="kbd">Enter</kbd></button>
     </div>

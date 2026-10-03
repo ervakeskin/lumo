@@ -94,7 +94,7 @@ export default function Disillusion({ session, paused, seed, startLevel }: GameP
       </div>
       <div className="dis-refs">
         {refs.map((r, i) => (
-          <motion.button key={i} whileTap={{ scale: 0.94 }} className={`dis-ref glass ${picked ? (i === picked.ans ? 'ok' : i === picked.i ? 'bad' : '') : ''}`} onClick={() => finish(i)} aria-label={`card ${i + 1}`}>
+          <motion.button key={i} whileTap={{ scale: 0.94 }} className={`dis-ref glass ${picked ? (i === picked.ans ? 'ok' : i === picked.i ? 'bad' : '') : ''}`} onClick={() => finish(i)} aria-label={`${t({ tr: 'kart', en: 'card' })} ${i + 1}`}>
             <CardView c={r} /><kbd className="kbd">{i + 1}</kbd>
           </motion.button>
         ))}

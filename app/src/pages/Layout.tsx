@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { useStore, useT } from '../core/store'
+import { useT } from '../core/store'
 import { useUser } from '../core/auth'
 import BackButton from '../components/BackButton'
+import Toggles from '../components/Toggles'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const t = useT()
-  const { lang, setLang, muted, setMuted } = useStore()
   const user = useUser()
   const path = useLocation().pathname
   // Oyun ve Fit Test akışı tam ekran (kendi Geri butonları var)
@@ -24,13 +24,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             <NavLink to="/fiyat">{t({ tr: 'Fiyat', en: 'Pricing' })}</NavLink>
           </nav>
           <div className="nav-tools">
-            <button className="btn icon" onClick={() => setMuted(!muted)} aria-pressed={muted} aria-label={t({ tr: 'Sesi aç/kapat', en: 'Toggle sound' })} title={muted ? 'Sound off' : 'Sound on'}>
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden>
-                <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" />
-                {muted ? <path d="M16 9l5 6m0-6l-5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /> : <path d="M16 8a5 5 0 010 8m2-11a9 9 0 010 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />}
-              </svg>
-            </button>
-            <button className="btn icon txt" onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')} aria-label="Language">{lang === 'tr' ? 'EN' : 'TR'}</button>
+            <Toggles />
             {user ? (
               <Link to="/profil" className="avatar" aria-label={t({ tr: 'Profil', en: 'Profile' })}>{user.name.slice(0, 1).toUpperCase()}</Link>
             ) : (

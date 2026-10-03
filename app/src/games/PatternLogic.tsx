@@ -80,7 +80,7 @@ export default function PatternLogic({ session, paused, seed, startLevel }: Game
       </motion.div>
       <div className="mx-opts">
         {pz.options.map((c, i) => (
-          <motion.button key={i} whileTap={{ scale: 0.94 }} className={`mx-opt glass ${picked ? (i === pz.answerIndex ? 'ok' : i === picked.i ? 'bad' : '') : ''}`} onClick={() => finish(i)} aria-label={`option ${i + 1}`}>
+          <motion.button key={i} whileTap={{ scale: 0.94 }} className={`mx-opt glass ${picked ? (i === pz.answerIndex ? 'ok' : i === picked.i ? 'bad' : '') : ''}`} onClick={() => finish(i)} aria-label={`${t({ tr: 'seçenek', en: 'option' })} ${i + 1}`}>
             <Cell c={c} /><kbd className="kbd">{i + 1}</kbd>
           </motion.button>
         ))}

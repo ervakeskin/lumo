@@ -169,7 +169,7 @@ form { display: grid; gap: 14px; margin-top: 14px; }
 
 /* ---------- Oyun kabuğu ---------- */
 .shell { height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
-.hud { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 12px; padding: 12px 16px; max-width: 900px; width: 100%; margin: 0 auto; }
+.hud { display: grid; grid-template-columns: auto 1fr auto auto auto; align-items: center; gap: 12px; padding: 12px 16px; max-width: 900px; width: 100%; margin: 0 auto; }
 .hud-title { font-weight: 800; text-align: center; }
 .hud-score { font-variant-numeric: tabular-nums; font-weight: 800; font-size: 1.4rem; min-width: 84px; text-align: right; }
 .timebar { height: 8px; background: var(--glass); margin: 0 auto; width: calc(100% - 32px); max-width: 868px; border-radius: 99px; overflow: hidden; }
@@ -278,7 +278,8 @@ form { display: grid; gap: 14px; margin-top: 14px; }
   .sm-arrow { transform: rotate(90deg); }
   .sm-prev { grid-auto-flow: column; align-items: center; }
   .big-score { font-size: 3.2rem; }
-  .hud { grid-template-columns: auto 1fr auto; }
+  .hud { grid-template-columns: auto 1fr auto auto; }
+  .hud-tools { grid-column: 3; grid-row: 1; }
   .hud > button:last-child { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) {

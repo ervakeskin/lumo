@@ -5,12 +5,13 @@ import { makeRng } from '../core/rng'
 import { ROWS, STAGE_X, STATION_COLORS, railLevel, railStages, trainSpawnSec, trainTravelSec } from '../core/rails'
 import { sfx } from '../core/audio'
 import { useT } from '../core/store'
+import { progressFor } from '../components/GameBits'
 
 const MAX_MISSES = 3
 interface Train { id: number; row: number; color: number; born: number; dur: number; r1: boolean; r2: boolean; cur: number }
 interface Fx { id: number; row: number; good: boolean }
 
-export default function TrainOfThought({ session, paused, seed }: GameProps) {
+export default function TrainOfThought({ session, paused, seed, startLevel }: GameProps) {
   const t = useT()
   const rng = useRef(makeRng(seed)).current
   const els = useRef(new Map<number, HTMLDivElement>())
@@ -22,7 +23,7 @@ export default function TrainOfThought({ session, paused, seed }: GameProps) {
   sw.current = { s1, s2 }
   const [misses, setMisses] = useState(0)
   const [fx, setFx] = useState<Fx[]>([])
-  const S = useRef({ clock: 0, lastSpawn: -9999, id: 0, resolved: 0, misses: 0, fx: 0 })
+  const S = useRef({ clock: 0, lastSpawn: -9999, id: 0, resolved: progressFor(railLevel, startLevel, 40), misses: 0, fx: 0 })
   const pausedRef = useRef(paused)
   pausedRef.current = paused
 
@@ -88,7 +89,7 @@ export default function TrainOfThought({ session, paused, seed }: GameProps) {
       <div className="sm-top">
         <span className="chip lvl">{t({ tr: `Seviye ${level} · ${stages} makas katmanı`, en: `Level ${level} · ${stages} switch layer(s)` })}</span>
         <span className="muted small">{t({ tr: 'Makasa dokun: tren bir alt hatta geçer. Her treni kendi renkli istasyonuna ulaştır!', en: 'Tap a switch: the train shifts one line down. Deliver each train to its matching station!' })}</span>
-        <div className="mm-errors" aria-label="misses">{Array.from({ length: MAX_MISSES }, (_, i) => <span key={i} className={`dot ${i < misses ? 'used' : ''}`} />)}</div>
+        <div className="mm-errors" aria-label={t({ tr: 'kaçırılanlar', en: 'misses' })}>{Array.from({ length: MAX_MISSES }, (_, i) => <span key={i} className={`dot ${i < misses ? 'used' : ''}`} />)}</div>
       </div>
       <div className="tr-board glass">
         {Array.from({ length: ROWS }, (_, r) => (
@@ -98,10 +99,10 @@ export default function TrainOfThought({ session, paused, seed }: GameProps) {
           </div>
         ))}
         {Array.from({ length: ROWS }, (_, r) => (
-          <button key={`a${r}`} className={`tr-switch ${s1[r] ? 'on' : ''}`} style={{ left: `${STAGE_X[0] * 100}%`, top: `${((r + 0.5) / ROWS) * 100}%` }} onClick={() => toggle(1, r)} aria-pressed={s1[r]} aria-label={`switch 1-${r + 1}`}>{s1[r] ? '↘' : '→'}</button>
+          <button key={`a${r}`} className={`tr-switch ${s1[r] ? 'on' : ''}`} style={{ left: `${STAGE_X[0] * 100}%`, top: `${((r + 0.5) / ROWS) * 100}%` }} onClick={() => toggle(1, r)} aria-pressed={s1[r]} aria-label={`${t({ tr: 'makas', en: 'switch' })} 1-${r + 1}`}>{s1[r] ? '↘' : '→'}</button>
         ))}
         {stages > 1 && Array.from({ length: ROWS }, (_, r) => (
-          <button key={`b${r}`} className={`tr-switch ${s2[r] ? 'on' : ''}`} style={{ left: `${STAGE_X[1] * 100}%`, top: `${((r + 0.5) / ROWS) * 100}%` }} onClick={() => toggle(2, r)} aria-pressed={s2[r]} aria-label={`switch 2-${r + 1}`}>{s2[r] ? '↘' : '→'}</button>
+          <button key={`b${r}`} className={`tr-switch ${s2[r] ? 'on' : ''}`} style={{ left: `${STAGE_X[1] * 100}%`, top: `${((r + 0.5) / ROWS) * 100}%` }} onClick={() => toggle(2, r)} aria-pressed={s2[r]} aria-label={`${t({ tr: 'makas', en: 'switch' })} 2-${r + 1}`}>{s2[r] ? '↘' : '→'}</button>
         ))}
         {ids.map((tr) => (
           <div key={tr.id} ref={(el) => { if (el) els.current.set(tr.id, el); else els.current.delete(tr.id) }} className="tr-train" style={{ background: STATION_COLORS[tr.color], left: 0, top: `${((tr.row + 0.5) / ROWS) * 100}%` }}><i /></div>

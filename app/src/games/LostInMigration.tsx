@@ -187,7 +187,7 @@ export default function LostInMigration({ session, paused, seed, startLevel }: G
       </div>
 
       {four ? (
-        <div className="dpad" role="group" aria-label="direction">
+        <div className="dpad" role="group" aria-label={t({ tr: 'yön', en: 'direction' })}>
           {(['up', 'left', 'right', 'down'] as Dir4[]).map((d) => (
             <motion.button key={d} whileTap={{ scale: 0.92 }} className={`btn choice lim-btn dp-${d}`} onClick={() => answer(d)} aria-label={t(NAMES[d])}>
               <span>{{ up: '↑', down: '↓', left: '←', right: '→' }[d]}</span>
