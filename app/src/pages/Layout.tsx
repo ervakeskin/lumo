@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useStore, useT } from '../core/store'
 import { useUser } from '../core/auth'
 import BackButton from '../components/BackButton'
+import Mascot from '../components/Mascot'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const t = useT()
@@ -17,7 +18,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <header className="nav">
         <div className="nav-in">
           {isHome ? <span className="nav-spacer" /> : <BackButton />}
-          <Link to="/" className="logo"><span className="logo-mark" aria-hidden />Lumo</Link>
+          <Link to="/" className="logo"><span className="logo-mark" aria-hidden><Mascot size={34} /></span>Lumo</Link>
           <nav className="nav-links" aria-label="main">
             <NavLink to="/panel">{t({ tr: 'Panel', en: 'Dashboard' })}</NavLink>
             <NavLink to="/oyunlar">{t({ tr: 'Oyunlar', en: 'Games' })}</NavLink>
@@ -44,8 +45,8 @@ export default function Layout({ children }: { children: ReactNode }) {
       </header>
       <main className="page">{children}</main>
       <footer className="foot">
-        <span>© Lumo</span>
-        <span className="muted">{t({ tr: 'Demo proje · tıbbi iddia taşımaz · reklam yok', en: 'Demo project · no medical claims · no ads' })}</span>
+        <div className="foot-mark"><Mascot size={44} /><b>Lumo</b></div>
+        <span className="muted">{t({ tr: 'Demo proje · tıbbi iddia taşımaz · reklam yok · verin cihazında', en: 'Demo project · no medical claims · no ads · your data stays on your device' })}</span>
       </footer>
     </>
   )

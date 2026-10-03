@@ -25,13 +25,13 @@ export type CategoryId = 'memory' | 'attention' | 'speed' | 'flexibility' | 'pro
 type L = { tr: string; en: string }
 
 export const CATEGORIES: Record<CategoryId, { name: L; color: string }> = {
-  memory: { name: { tr: 'Hafıza', en: 'Memory' }, color: '#FF8C42' },
-  attention: { name: { tr: 'Dikkat', en: 'Attention' }, color: '#22C7A9' },
-  speed: { name: { tr: 'Hız', en: 'Speed' }, color: '#EF5B5B' },
-  flexibility: { name: { tr: 'Esneklik', en: 'Flexibility' }, color: '#A78BFA' },
-  problem: { name: { tr: 'Problem Çözme', en: 'Problem Solving' }, color: '#4C9AFF' },
-  math: { name: { tr: 'Matematik', en: 'Math' }, color: '#3BB2F6' },
-  language: { name: { tr: 'Dil', en: 'Language' }, color: '#F472B6' },
+  memory: { name: { tr: 'Hafıza', en: 'Memory' }, color: '#FF7A1A' },
+  attention: { name: { tr: 'Dikkat', en: 'Attention' }, color: '#0FB5A0' },
+  speed: { name: { tr: 'Hız', en: 'Speed' }, color: '#F0454A' },
+  flexibility: { name: { tr: 'Esneklik', en: 'Flexibility' }, color: '#8B5CF6' },
+  problem: { name: { tr: 'Problem Çözme', en: 'Problem Solving' }, color: '#2F7DF0' },
+  math: { name: { tr: 'Matematik', en: 'Math' }, color: '#0EA5E9' },
+  language: { name: { tr: 'Dil', en: 'Language' }, color: '#EC4899' },
 }
 
 export interface GameMeta {

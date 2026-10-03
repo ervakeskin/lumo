@@ -27,7 +27,7 @@ export default function Library() {
           const cat = CATEGORIES[g.category]
           const ok = isPlayable(g)
           const card = (
-            <motion.div className={`card glass ${ok ? 'live' : 'soon'}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }} whileHover={ok ? { y: -4 } : undefined}>
+            <motion.div className={`card glass ${ok ? 'live' : 'soon'}`} style={{ '--c': cat.color } as React.CSSProperties} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }} whileHover={ok ? { y: -4 } : undefined}>
               <div className="card-top">
                 <GameIcon category={g.category} color={cat.color} />
               </div>

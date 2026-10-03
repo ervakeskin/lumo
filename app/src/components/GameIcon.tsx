@@ -13,7 +13,7 @@ const GLYPH: Record<CategoryId, ReactElement> = {
 
 export default function GameIcon({ category, color, size = 52 }: { category: CategoryId; color: string; size?: number }) {
   return (
-    <span className="gicon" style={{ width: size, height: size, background: `linear-gradient(145deg, ${color}44, ${color}12)`, border: `1px solid ${color}55`, color }}>
+    <span className="gicon" style={{ width: size, height: size, '--c': color } as React.CSSProperties}>
       <svg viewBox="0 0 48 48" width={size * 0.62} height={size * 0.62} fill="currentColor" aria-hidden>{GLYPH[category]}</svg>
     </span>
   )

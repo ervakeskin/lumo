@@ -152,7 +152,7 @@ export default function GameShell({ game, onReplay, fit }: { game: GameMeta; onR
   const pct = (timeLeft / totalSec) * 100
 
   return (
-    <div className="shell">
+    <div className="shell" style={{ '--cat': cat.color } as React.CSSProperties}>
       <header className="hud">
         <BackButton to="/oyunlar" replace />
         <div className="hud-title" style={{ color: cat.color }}>{game.name}</div>
