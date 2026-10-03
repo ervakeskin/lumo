@@ -37,14 +37,36 @@ describe('n-back', () => {
   })
 })
 describe('Tidal Treasures', () => {
-  it('her seviyede benzersiz nesneler', () => {
+  it('eskiler görülmüştür, yeniler görülmemiştir; oran ~%40', () => {
     const r = makeRng(1)
-    for (const level of [1, 2, 3])
-      for (let n = 4; n <= 14; n++) {
-        const set = td.tidalSet(n, level, r)
-        expect(set).toHaveLength(n)
-        expect(new Set(set.map((x) => `${x.shape}:${x.hue}`)).size).toBe(n)
-      }
+    const seen: td.TItem[] = []
+    let old = 0, total = 0
+    for (let n = 0; n < 100; n++) { // gerçekçi oyun uzunluğu (havuz 144 çift)
+      const { item, isOld } = td.tidalNext(seen, n, r)
+      const known = seen.some((x) => td.tidalKey(x) === td.tidalKey(item))
+      expect(known).toBe(isOld)
+      if (seen.length >= 2) { total++; if (isOld) old++ }
+      if (!isOld) seen.push(item)
+    }
+    expect(old / total).toBeGreaterThan(0.3)
+    expect(old / total).toBeLessThan(0.5)
+  })
+  it('L3: yeniler çoğunlukla eski bir hazineye benzer (aynı şekil)', () => {
+    const r = makeRng(7)
+    let lure = 0, fresh = 0
+    for (let k = 0; k < 400; k++) {
+      const seen = [{ id: 0, shape: 3, hue: 0 }, { id: 1, shape: 5, hue: 120 }]
+      const { item, isOld } = td.tidalNext(seen, 40, r)
+      if (isOld) continue
+      fresh++
+      if (seen.some((x) => x.shape === item.shape)) lure++
+    }
+    expect(lure / fresh).toBeGreaterThan(0.6)
+  })
+  it('seviye ve süre', () => {
+    expect(td.tidalLevel(0)).toBe(1)
+    expect(td.tidalLevel(30)).toBe(3)
+    expect(td.tidalLimitMs(1000)).toBe(1800)
   })
 })
 describe('Familiar Faces', () => {

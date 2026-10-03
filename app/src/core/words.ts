@@ -25,6 +25,48 @@ export const WORDS: Record<string, string[]> = {
   tat: ['tat', 'tatil', 'tatlı', 'tatmak', 'tatlılık', 'tatsız', 'tatmin', 'tatar', 'tatlandırmak', 'tatbikat', 'tatlıcı'],
   tas: ['tas', 'tasa', 'taslak', 'tasarım', 'tasarruf', 'tasvir', 'tasdik', 'tasfiye', 'tasarlamak', 'tasnif', 'tasasız', 'taslama', 'tasarımcı'],
 }
+const EXTRA: Record<string, string> = {
+  kar: 'karakalem karamel karantina karasu karadut karakuş kararsız karartı karşılaşmak karşılamak karşıt karşılaştırmak karışmak karıştırmak karı karım karmakarışık kartal kartpostal kart kartvizit karnıyarık',
+  gel: 'gelgitler gelişmek geliştirmek gelirler gelincik gelmedi gelsin geldik gelirim gelirsin',
+  yol: 'yolculuklar yoldaşlık yolları yolunu yoluna yolcuk',
+  ara: 'araştırma araştırmak aralamak arayıcı aranan arananlar arabuluculuk aracılık',
+  bas: 'basmak basın basit basamak basiret baskı baskın baskül basketbol basma basmakalıp basık baston bastırmak basılı basınç basitlik baskıcı',
+  gör: 'görmek görev görevli görüş görüntü görsel görkemli görgü görücü görünüm görünmek görmezden görevlendirmek görüşmek görümce görece göreli görselleştirmek görüşme',
+  çiçe: 'çiçek çiçekçi çiçeklik çiçekli çiçekler çiçeği çiçeklenmek çiçeksiz çiçeklendirmek çiçeğim çiçekçilik',
+  ört: 'örtmek örtü örtük örtülü örtmece örtbas örtüşmek örtünmek örtüler örtmeli örtüyü',
+  ağa: 'ağa ağabey ağaç ağaçlık ağaçlar ağaçkakan ağaçlandırmak ağalık ağarmak ağartmak ağaçsız ağaçtan',
+  mut: 'mutlu mutluluk mutfak mutlak mutasyon mutsuz mutsuzluk mutabakat mutlaka mutluyum mutlulukla mutad mutemet',
+  kış: 'kış kışlık kışla kışkırtmak kışın kışlamak kışkırtıcı kışlar kışlak kışlaklar',
+  yağ: 'yağ yağmur yağmak yağlı yağız yağcı yağmacı yağdırmak yağlamak yağlıboya yağışlı yağış yağmurluk yağlık yağma',
+  gök: 'gök gökyüzü gökkuşağı gökdelen göktaşı gökbilim gökgürültüsü gökçe göklü gökler gökada',
+  ay: 'ay ayna aylık aylar ayak ayakkabı ayrılmak ayrıca ayran ayrım aydınlık aydın aygıt ayıp ayı ayva ayçiçeği aylak ayırmak ayarlamak ayet',
+  sar: 'sarı sarmak sarmal sarmaşık sarsıntı sarhoş saray sarılmak sargı sarkmak sarkıt sarnıç sarımsak sarsmak sarkaç',
+  dil: 'dil dilek dilim dilbilim dilsiz dilenci dilekçe dilemek dillendirmek dilimlemek dilbilgisi dilbaz',
+  ben: 'ben benzer benzin benim bence benlik bencil benzemek benzeşmek benzetmek benzeri benzerlik bendeniz bent',
+  son: 'son sonra sonuç sonbahar sonsuz sonsuzluk sonradan sonlu sonuçlanmak sonlandırmak sonrası sonuncu sonda sonat sondaj sonlar sonuçsuz',
+  ilk: 'ilk ilkel ilkbahar ilkokul ilke ilkin ilkönce ilkeli ilkesiz ilkyardım ilkçağ ilkeler',
+  üz: 'üzüm üzgün üzmek üzere üzeri üzerinde üzüntü üzücü üzerine üzengi üzümlü',
+  çal: 'çalmak çalışmak çalışma çalışkan çalı çalım çalgı çalkantı çalkalamak çalar çalıştırmak çalışan çalışkanlık çalıntı çaldı çalıkuşu',
+  yaş: 'yaş yaşam yaşamak yaşlı yaşlılık yaşıt yaşça yaşayış yaşanmak yaşatmak yaşlanmak yaşlılar yaşar',
+  sıc: 'sıcak sıcaklık sıcacık sıcağı sıcakta sıcaklar sıcaktan sıcakkanlı sıcaklığı sıcaklıkta',
+  kök: 'kök köken köklü köksüz kökenli köklenmek kökleşmek kökler kökten kökeni kökü',
+  tur: 'turp turuncu turizm turist turşu turna turnuva turne turkuaz turba turbo turistik turnike turta',
+  kuş: 'kuş kuşak kuşatmak kuşku kuşkulu kuşlar kuşbaşı kuşkonmaz kuşçu kuşburnu kuşluk kuşanmak',
+  kap: 'kapı kapak kapmak kapalı kapamak kapsam kapsül kapışmak kaplan kaplama kaplumbağa kapıcı kapitalist kapris kaptan kapsamlı kapkara',
+  zam: 'zaman zamir zambak zamk zamanla zamanında zamansız zamlı zamanlama zamanlayıcı',
+  tel: 'tel telefon televizyon telgraf telaş telaffuz telli telsiz teleskop teller telkin telif telefonlar telaşlı',
+  ter: 'ter terzi terlik termos terim terör terbiye tercih tercüman tertip terlemek termometre terminal tersane tersine tereyağı terapi terazi teras terk',
+  sağ: 'sağ sağlık sağlam sağır sağlayıcı sağlamak sağdıç sağduyu sağlıklı sağanak sağlamlık sağcı sağlıksız',
+  sol: 'sol solgun solmak solucan soluk solunum solak solist solcu soldurmak soldaki',
+  çök: 'çökmek çökelti çöktürmek çöküş çöküntü çökmüş çökertmek çökelmek çökük çökme',
+  dur: 'durmak durum durak durgun durdurmak duraklamak duruş durgunluk duran durulmak duruşma durağan',
+  gez: 'gezmek gezi gezgin gezegen gezinti gezdirmek gezinmek gezici gezintiye gezginci',
+  ok: 'okul okumak okuma okyanus okuyucu oksijen okşamak oklava okunmak okur okuntu okça okçu okunaklı okullar',
+  bul: 'bulmak bulut bulmaca bulgu bulunmak bulaşık bulaşmak bulvar buluş bulgur bulantı bulanık buluşmak bulgular bulutlu buldozer bulucu',
+  duy: 'duymak duygu duyuru duyarlı duyum duygusal duyurmak duyulmak duyarsız duygudaş duyuş duyumsamak duygulu duygusuz',
+}
+for (const [stem, list] of Object.entries(EXTRA))
+  WORDS[stem] = Array.from(new Set([...(WORDS[stem] ?? []), ...list.split(/\s+/)]))
 export const STEMS = Object.keys(WORDS)
 
 export type WordCheck = 'ok' | 'invalid' | 'dup' | 'stem'

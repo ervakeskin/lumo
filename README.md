@@ -1,6 +1,6 @@
 # Lumo
 
-Hesapsız, reklamsız, tamamen ücretsiz bir beyin antrenmanı uygulaması. 20 mini oyun (hafıza, dikkat, hız, esneklik, problem çözme), Türkçe/İngilizce arayüz, yerel veri.
+Sunucusuz, reklamsız, tamamen ücretsiz bir beyin antrenmanı uygulaması. 20 mini oyun (hafıza, dikkat, hız, esneklik, problem çözme), Türkçe/İngilizce arayüz, yerel veri.
 
 - **Stack:** React 19 · TypeScript · Vite · zustand · framer-motion · vitest
 - **Oyun mantığı:** `app/src/core/` (saf, seeded RNG, birim testli) — arayüz `app/src/games/`

@@ -1,12 +1,12 @@
 // Öğretici (3 adım) metinleri: yeni oyunlar için. Eski oyunların adımları GameShell içinde.
 export const NEW_STEPS: Record<string, { tr: string[]; en: string[] }> = {
   'tidal-treasures': {
-    tr: ['Ekranda deniz nesneleri belirir.', 'Daha önce SEÇMEDİĞİN bir nesneye dokun. Her seçimden sonra nesnelerin yerleri karışır.', 'Aynı nesneyi tekrar seçersen can kaybedersin. Tüm nesneler bitince tur tamamlanır; sonraki turda daha fazla ve daha benzer nesneler gelir.'],
-    en: ['Sea objects appear on screen.', 'Tap an object you have NOT picked before. Positions shuffle after every pick.', 'Picking the same object again costs a life. Finish all objects to clear the round; later rounds bring more and more similar objects.'],
+    tr: ['Dalgalar kıyıya tek tek hazine getirir.', 'Bu hazineyi daha önce buldun mu? Bulmadıysan YENİ (←), buldundan eminsen BULMUŞTUM (→).', 'Yeni hazineler koleksiyonuna girer. İlerledikçe yeni hazineler eskilerine daha çok benzer ve süre kısalır.'],
+    en: ['Waves wash up one treasure at a time.', 'Have you found this one before? NEW (←) if not, SEEN (→) if you are sure.', 'New treasures join your collection. Later, new ones look more like old ones and time shrinks.'],
   },
   'memory-match': {
-    tr: ['Tek tek şekiller belirir.', 'Şimdiki şekil, N adım ÖNCEKİ ile aynıysa AYNI (→), değilse FARKLI (←) de.', 'Doğru seri yaptıkça N artar: 1-geri → 2-geri → 3-geri.'],
-    en: ['Shapes appear one by one.', 'If the current shape matches the one N steps BACK press SAME (→), else DIFFERENT (←).', 'As you score, N grows: 1-back → 2-back → 3-back.'],
+    tr: ['Şekiller sağdan gelir, sonra kartlar kapanır.', 'Sağdaki şekil, işaretli kartla (N önceki) aynıysa AYNI (→), değilse FARKLI (←). Cevaptan sonra kart açılıp doğrusu gösterilir.', 'Doğru seri yaptıkça N artar: 1-geri → 2-geri → 3-geri.'],
+    en: ['Shapes arrive on the right, then cards flip face-down.', 'If the shape on the right matches the marked card (N back) press SAME (→), else DIFFERENT (←). After you answer, the card flips to show the truth.', 'As you score, N grows: 1-back → 2-back → 3-back.'],
   },
   'familiar-faces': {
     tr: ['Müşterilerin yüzünü, adını ve siparişini ezberle.', 'Süre dolunca ya da "Hazırım" deyince sorular başlar: bu müşteri ne sipariş etti / adı neydi?', 'Her başarılı turda müşteri sayısı artar.'],

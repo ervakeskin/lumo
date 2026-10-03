@@ -8,14 +8,20 @@ import { useT } from '../core/store'
 import { Feed, SHAKE, type Msg } from '../components/GameBits'
 
 const STEM_SEC = 30
+// Baloncuklar çakışmasın diye sabit yuvalara yerleşir: 4 sütun × 3 satır, sırayla dolar
+const COLS = 4
+const ROWS = 3
+const slotPos = (slot: number) => ({ left: `${12.5 + (slot % COLS) * 25}%`, top: `${20 + Math.floor((slot % (COLS * ROWS)) / COLS) * 30}%` })
+// Uzun sözcük: soğuk maviden sıcak turuncuya
+const lenHue = (len: number) => Math.max(18, 200 - (len - 3) * 24)
 
 export default function WordBubbles({ session, paused, seed, timeLeft }: GameProps) {
   const t = useT()
   const rng = useRef(makeRng(seed)).current
   const stems = useMemo(() => rng.shuffle(STEMS), [rng])
-  const S = useRef({ used: [] as string[], msgId: 0, count: 0, bid: 0 })
+  const S = useRef({ used: [] as string[], msgId: 0, count: 0, bid: 0, best: '' })
   const [val, setVal] = useState('')
-  const [bubbles, setBubbles] = useState<{ id: number; w: string; x: number }[]>([])
+  const [bubbles, setBubbles] = useState<{ id: number; w: string; slot: number }[]>([])
   const [msg, setMsg] = useState<Msg | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const shake = useAnimationControls()
@@ -40,7 +46,10 @@ export default function WordBubbles({ session, paused, seed, timeLeft }: GamePro
       S.current.count += 1
       session.record({ correct: true, points: wordPoints(w), tag: `len${w.length}` })
       session.setLevel(S.current.count)
-      setBubbles((b) => [...b.slice(-11), { id: ++S.current.bid, w, x: 6 + rng.next() * 80 }])
+      if (w.length > S.current.best.length) S.current.best = w
+      const id = ++S.current.bid
+      // Aynı yuvayı kullanan eski baloncuk yerini yenisine bırakır
+      setBubbles((b) => [...b.filter((x) => x.slot !== (id - 1) % (COLS * ROWS)), { id, w, slot: (id - 1) % (COLS * ROWS) }])
       say(`+${wordPoints(w)}`, true)
       setVal('')
     } else {
@@ -61,11 +70,22 @@ export default function WordBubbles({ session, paused, seed, timeLeft }: GamePro
       </div>
       <motion.div className="wb-stem glass" animate={shake} key={stem}>
         <span>{stem.toLocaleUpperCase('tr')}</span><i>…</i>
+        <div className="wb-timer" aria-hidden><b style={{ width: `${(stemSecLeft / STEM_SEC) * 100}%` }} /></div>
       </motion.div>
       <div className="wb-sea" aria-hidden>
         <AnimatePresence>
           {bubbles.map((b) => (
-            <motion.span key={b.id} className="wb-bubble" style={{ left: `${b.x}%` }} initial={{ y: 60, opacity: 0, scale: 0.6 }} animate={{ y: 0, opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 18 }}>{b.w}</motion.span>
+            <motion.span
+              key={b.id}
+              className="wb-bubble"
+              style={{ ...slotPos(b.slot), '--h': lenHue(b.w.length), fontSize: `${Math.min(1.15, 0.85 + b.w.length * 0.03)}rem` } as React.CSSProperties}
+              initial={{ y: 40, opacity: 0, scale: 0.4 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 16 }}
+            >
+              <em style={{ animationDelay: `${(b.id % 5) * -0.6}s` }}>{b.w}</em>
+            </motion.span>
           ))}
         </AnimatePresence>
       </div>
@@ -74,7 +94,10 @@ export default function WordBubbles({ session, paused, seed, timeLeft }: GamePro
         <button className="btn primary" type="submit">↵</button>
       </form>
       <Feed msg={msg} />
-      <span className="muted small">{t({ tr: `Bulunan: ${S.current.count}`, en: `Found: ${S.current.count}` })}</span>
+      <div className="wb-stats">
+        <span className="chip">{t({ tr: `Bulunan: ${S.current.count}`, en: `Found: ${S.current.count}` })}</span>
+        {S.current.best && <span className="chip lvl">{t({ tr: `En uzun: ${S.current.best}`, en: `Longest: ${S.current.best}` })}</span>}
+      </div>
     </div>
   )
 }
