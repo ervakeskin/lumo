@@ -4,7 +4,7 @@ Hesapsız, reklamsız, tamamen ücretsiz bir beyin antrenmanı uygulaması. 20 m
 
 - **Stack:** React 19 · TypeScript · Vite · zustand · framer-motion · vitest
 - **Oyun mantığı:** `app/src/core/` (saf, seeded RNG, birim testli) — arayüz `app/src/games/`
-- **Notlar:** [Farklılaşma notları](NOTES-differentiation.md) · [Uygulama planı](implementation_plan_v2.md)
+- **Notlar:** [Farklılaşma notları](NOTES-differentiation.md)
 
 ## Çalıştırma
 
