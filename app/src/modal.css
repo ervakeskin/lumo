@@ -1,0 +1,19 @@
+/* Kayıt hatırlatma penceresi, sekmeler, ana sayfa vitrini */
+.modal-back { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: rgba(6, 9, 20, 0.72); backdrop-filter: blur(6px); overflow-y: auto; }
+.modal { position: relative; width: min(460px, 100%); padding: 28px; display: grid; gap: 12px; max-height: 94vh; overflow-y: auto; background: rgba(20, 27, 52, 0.96); }
+.modal h2 { margin: 0; font-size: 1.6rem; }
+.modal p { margin: 0; }
+.modal-x { position: absolute; top: 10px; right: 12px; width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--glass); color: var(--text); font-size: 1.3rem; cursor: pointer; line-height: 1; }
+.modal-list { margin: 0; padding-left: 18px; line-height: 1.8; color: var(--muted); }
+.modal-ok { display: grid; gap: 14px; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; border-radius: 14px; background: rgba(0, 0, 0, 0.25); }
+.tabs button { font: inherit; font-weight: 700; padding: 9px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); cursor: pointer; }
+.tabs button.on { background: var(--surface); color: var(--text); }
+.notice { margin: 0; padding: 10px 12px; border-radius: 12px; background: rgba(255, 140, 66, 0.1); border: 1px solid rgba(255, 140, 66, 0.35); font-size: 0.92rem; }
+.try-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.try-head h2 { margin: 0 0 4px; }
+.try-head p { margin: 0; }
+.try-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.try-card { padding: 14px; display: grid; gap: 4px; justify-items: start; transition: transform 0.2s var(--ease), border-color 0.2s; }
+.try-card:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.3); }
+.try-card.more { place-content: center; justify-items: center; color: var(--warm); }

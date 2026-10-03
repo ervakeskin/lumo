@@ -1,0 +1,7 @@
+node_modules
+dist
+.claude/
+# Üçüncü taraf Play Store yorum dökümü (10+ MB) — repoya konmaz
+lumosity-feedbacks.md
+*.log
+.DS_Store

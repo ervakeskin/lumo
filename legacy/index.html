@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lumo — Cognitive Training</title>
+  <meta name="description" content="Train memory, attention, speed, flexibility and problem solving with scientifically inspired games.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="particle-canvas" class="particle-canvas"></canvas>
+
+<!-- ============ LANDING PAGE ============ -->
+<div id="landing-page" class="page active">
+  <header class="landing-header">
+    <div class="landing-nav">
+      <div class="logo" onclick="showPage('landing-page')">
+        <svg class="logo-icon" viewBox="0 0 36 36" width="36" height="36">
+          <defs>
+            <linearGradient id="lGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00F2FE"/>
+              <stop offset="100%" stop-color="#3B82F6"/>
+            </linearGradient>
+          </defs>
+          <circle cx="18" cy="18" r="16" fill="none" stroke="url(#lGrad)" stroke-width="2.5"/>
+          <path d="M10 23 C10 15, 15 10, 18 10 C21 10, 26 15, 26 23" fill="none" stroke="url(#lGrad)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="14" cy="18" r="2.2" fill="url(#lGrad)"/>
+          <circle cx="22" cy="18" r="2.2" fill="url(#lGrad)"/>
+        </svg>
+        <span class="logo-text">lumo</span>
+        <span class="logo-subtext">BRAIN TRAINING</span>
+      </div>
+      <div class="landing-actions">
+        <button class="lang-switch-btn" onclick="toggleLanguage()" title="Dili Değiştir / Change Language">
+          🌐 <span id="landing-lang-label">TR</span>
+        </button>
+        <button class="btn-text" id="landing-login-btn" onclick="showPage('login-page')">Log In</button>
+        <button class="btn-primary" id="landing-getstarted-btn" onclick="startOnboarding()">Get Started Free</button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="landing-hero">
+    <div class="hero-content">
+      <h1>Train your brain.<br>Track your <span class="highlight">progress.</span></h1>
+      <p class="hero-subtitle">Scientifically inspired mini-games that adapt to your performance level — measuring memory, attention, processing speed, cognitive flexibility, and problem solving.</p>
+      <button class="btn-primary btn-large" onclick="startOnboarding()">
+        Start Free Fit Test
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <p class="hero-note">No credit card · No hidden fees · 100% transparent</p>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-cards">
+        <div class="hero-card hc-memory">
+          <div class="hc-icon">
+            <svg viewBox="0 0 40 40" width="40" height="40"><rect x="4" y="4" width="32" height="32" rx="8" fill="none" stroke="#FF8C42" stroke-width="2"/><rect x="9" y="9" width="9" height="9" rx="2" fill="#FF8C42"/><rect x="22" y="9" width="9" height="9" rx="2" fill="#FF8C42" opacity="0.4"/><rect x="9" y="22" width="9" height="9" rx="2" fill="#FF8C42" opacity="0.4"/><rect x="22" y="22" width="9" height="9" rx="2" fill="#FF8C42"/></svg>
+          </div>
+          <span>Memory</span>
+        </div>
+        <div class="hero-card hc-attention">
+          <div class="hc-icon">
+            <svg viewBox="0 0 40 40" width="40" height="40"><circle cx="20" cy="20" r="14" fill="none" stroke="#10B981" stroke-width="2"/><circle cx="20" cy="20" r="6" fill="#10B981"/><line x1="20" y1="4" x2="20" y2="8" stroke="#10B981" stroke-width="2" stroke-linecap="round"/><line x1="20" y1="32" x2="20" y2="36" stroke="#10B981" stroke-width="2" stroke-linecap="round"/><line x1="4" y1="20" x2="8" y2="20" stroke="#10B981" stroke-width="2" stroke-linecap="round"/><line x1="32" y1="20" x2="36" y2="20" stroke="#10B981" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Attention</span>
+        </div>
+        <div class="hero-card hc-speed">
+          <div class="hc-icon">
+            <svg viewBox="0 0 40 40" width="40" height="40"><path d="M20 8L10 22h9L17 34l13-16h-9l2-10z" fill="#EF4444"/></svg>
+          </div>
+          <span>Speed</span>
+        </div>
+        <div class="hero-card hc-flexibility">
+          <div class="hc-icon">
+            <svg viewBox="0 0 40 40" width="40" height="40"><path d="M20 6 C28 6, 34 12, 34 20 C34 28, 28 34, 20 34 C12 34, 6 28, 6 20 C6 12, 12 6, 20 6Z" fill="none" stroke="#A78BFA" stroke-width="2"/><path d="M14 20 L20 14 L26 20 L20 26 Z" fill="#A78BFA"/></svg>
+          </div>
+          <span>Flexibility</span>
+        </div>
+        <div class="hero-card hc-problem">
+          <div class="hc-icon">
+            <svg viewBox="0 0 40 40" width="40" height="40"><rect x="4" y="4" width="32" height="32" rx="6" fill="none" stroke="#3B82F6" stroke-width="2"/><path d="M12 28 L20 12 L28 28" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="15" y1="22" x2="25" y2="22" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Problem Solving</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="landing-features">
+    <div class="feature">
+      <div class="feature-icon" style="background:rgba(0,242,254,0.12);">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="2" y="2" width="24" height="24" rx="6" stroke="#00F2FE" stroke-width="2"/><path d="M9 14h10M14 9v10" stroke="#00F2FE" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Adaptive Difficulty</h3>
+      <p>Every game adjusts to your exact performance level in real time — never too easy, never frustrating.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon" style="background:rgba(255,107,107,0.12);">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 20 L10 12 L16 16 L22 8" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="8" r="3" fill="#FF6B6B"/></svg>
+      </div>
+      <h3>Millisecond Precision</h3>
+      <p>We measure reaction time to the millisecond and visualize your improvement session by session.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon" style="background:rgba(167,139,250,0.12);">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="#A78BFA" stroke-width="2"/><path d="M14 8v6l4 4" stroke="#A78BFA" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Radical Transparency</h3>
+      <p>Honest science explanations, no exaggerated health claims, and zero hidden subscription tricks.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ============ LOGIN PAGE ============ -->
+<div id="login-page" class="page">
+  <div class="auth-container">
+    <div class="logo" style="justify-content:center;margin-bottom:32px;">
+      <svg viewBox="0 0 36 36" width="40" height="40">
+        <defs><linearGradient id="lGrad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00F2FE"/><stop offset="100%" stop-color="#3B82F6"/></linearGradient></defs>
+        <circle cx="18" cy="18" r="16" fill="none" stroke="url(#lGrad2)" stroke-width="2.5"/>
+        <path d="M10 23 C10 15, 15 10, 18 10 C21 10, 26 15, 26 23" fill="none" stroke="url(#lGrad2)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="14" cy="18" r="2.2" fill="url(#lGrad2)"/>
+        <circle cx="22" cy="18" r="2.2" fill="url(#lGrad2)"/>
+      </svg>
+      <span class="logo-text" style="font-size:28px;">lumo</span>
+    </div>
+    <h2>Welcome Back</h2>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label id="lbl-login-email">Email</label>
+        <input type="email" id="login-email" placeholder="ornek@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label id="lbl-login-password">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn-primary btn-full" id="btn-login-submit">Log In</button>
+    </form>
+
+    <p class="auth-switch">New user? <a href="#" onclick="startOnboarding()">Start your Fit Test free</a></p>
+    <button class="btn-text" onclick="showPage('landing-page')" style="margin-top:14px;width:100%;">← Back to Home</button>
+  </div>
+</div>
+
+<!-- ============ ONBOARDING QUIZ ============ -->
+<div id="onboarding-page" class="page">
+  <div class="onboarding-wrap">
+    <!-- Progress dots injected by JS -->
+    <div class="onboarding-progress" id="ob-progress"></div>
+    <div id="ob-question-area"></div>
+    <div class="onboarding-nav" id="ob-nav">
+      <button class="btn-ghost" id="ob-back-btn" onclick="obBack()">← Back</button>
+      <button class="btn-primary" id="ob-next-btn" onclick="obNext()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FIT TEST INTRO ============ -->
+<div id="fittest-screen" class="page">
+  <div class="fittest-container">
+    <div class="logo" style="justify-content:center;margin-bottom:28px;">
+      <svg viewBox="0 0 36 36" width="44" height="44">
+        <defs><linearGradient id="lGrad3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00F2FE"/><stop offset="100%" stop-color="#3B82F6"/></linearGradient></defs>
+        <circle cx="18" cy="18" r="16" fill="none" stroke="url(#lGrad3)" stroke-width="2.5"/>
+        <path d="M10 23 C10 15, 15 10, 18 10 C21 10, 26 15, 26 23" fill="none" stroke="url(#lGrad3)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="14" cy="18" r="2.2" fill="url(#lGrad3)"/>
+        <circle cx="22" cy="18" r="2.2" fill="url(#lGrad3)"/>
+      </svg>
+      <span class="logo-text" style="font-size:26px;">lumo</span>
+    </div>
+    <h2>Your Fit Test</h2>
+    <p>Three quick games to establish your cognitive baseline. This sets your starting difficulty for all future sessions — so you begin at the right level, not from scratch.</p>
+
+    <div class="fittest-games-preview">
+      <div class="ft-game-pip">
+        <div class="ft-game-pip-icon" style="background:rgba(255,140,66,0.18);">
+          <svg viewBox="0 0 36 36" width="22" height="22"><rect x="4" y="4" width="28" height="28" rx="6" fill="none" stroke="#FF8C42" stroke-width="2"/><rect x="8" y="8" width="8" height="8" rx="2" fill="#FF8C42"/><rect x="20" y="8" width="8" height="8" rx="2" fill="#FF8C42"/><rect x="8" y="20" width="8" height="8" rx="2" fill="#FF8C42"/><rect x="20" y="20" width="8" height="8" rx="2" fill="#FF8C42" opacity="0.3"/></svg>
+        </div>
+        <span>Memory Matrix</span>
+        <span class="ft-est">~90 sec</span>
+      </div>
+      <div class="ft-game-pip">
+        <div class="ft-game-pip-icon" style="background:rgba(239,68,68,0.18);">
+          <svg viewBox="0 0 36 36" width="22" height="22"><path d="M19 8L10 20h8l-1 10 9-12h-8l1-10z" fill="#EF4444"/></svg>
+        </div>
+        <span>Speed Match</span>
+        <span class="ft-est">~90 sec</span>
+      </div>
+      <div class="ft-game-pip">
+        <div class="ft-game-pip-icon" style="background:rgba(16,185,129,0.18);">
+          <svg viewBox="0 0 36 36" width="22" height="22"><circle cx="18" cy="18" r="14" fill="none" stroke="#10B981" stroke-width="2"/><path d="M12 18l6-6 6 6" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span>Lost in Migration</span>
+        <span class="ft-est">~90 sec</span>
+      </div>
+    </div>
+
+    <button class="btn-primary btn-large btn-full" onclick="beginFitTest()">
+      Begin Fit Test
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <p style="font-size:13px;color:var(--text-muted);margin-top:14px;">~5 minutes total · No account required to start</p>
+  </div>
+</div>
+
+<!-- ============ FIT TEST RESULT ============ -->
+<div id="fittest-result-screen" class="page">
+  <div class="fittest-result-wrap">
+    <div class="fit-result-header">
+      <h2>Your Baseline Results</h2>
+      <p>Based on your performance, here's where your cognitive profile stands today.</p>
+    </div>
+
+    <div class="percentile-badge">
+      <div class="percentile-number" id="fit-percentile">72</div>
+      <div class="percentile-label">Overall Percentile · Age Group 25–34</div>
+    </div>
+
+    <div class="radar-chart-wrap">
+      <canvas id="radar-canvas" width="260" height="260"></canvas>
+    </div>
+
+    <div class="category-scores-list" id="fit-cat-scores">
+      <!-- Filled by JS -->
+    </div>
+
+    <button class="btn-primary btn-full btn-large" onclick="completeFitTest()" style="margin-bottom:14px;">
+      Start Training →
+    </button>
+    <button class="btn-secondary btn-full" onclick="showPage('landing-page')">Save for Later</button>
+
+    <p style="font-size:12px;color:var(--text-muted);margin-top:20px;text-align:center;line-height:1.6;">
+      These scores measure performance on specific cognitive tasks. They do not diagnose medical conditions or predict overall intelligence. Regular practice can improve task-specific performance.
+    </p>
+  </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="app" class="page">
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo" onclick="switchTab('home')">
+        <svg viewBox="0 0 36 36" width="30" height="30">
+          <defs><linearGradient id="lGrad4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00F2FE"/><stop offset="100%" stop-color="#3B82F6"/></linearGradient></defs>
+          <circle cx="18" cy="18" r="16" fill="none" stroke="url(#lGrad4)" stroke-width="2.5"/>
+          <path d="M10 23 C10 15, 15 10, 18 10 C21 10, 26 15, 26 23" fill="none" stroke="url(#lGrad4)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="14" cy="18" r="2.2" fill="url(#lGrad4)"/>
+          <circle cx="22" cy="18" r="2.2" fill="url(#lGrad4)"/>
+        </svg>
+        <span class="logo-text">lumo</span>
+      </div>
+      <nav class="desktop-nav">
+        <button class="d-nav-item active" data-tab="home" onclick="switchTab('home',this)">Home</button>
+        <button class="d-nav-item" data-tab="games" onclick="switchTab('games',this)">Games</button>
+        <button class="d-nav-item" data-tab="stats" onclick="switchTab('stats',this)">Insights</button>
+        <button class="d-nav-item" data-tab="profile" onclick="switchTab('profile',this)">Profile</button>
+      </nav>
+    </div>
+    <div class="header-right">
+      <button class="lang-switch-btn" onclick="toggleLanguage()" title="Dili Değiştir / Change Language">
+        🌐 <span id="app-lang-label">TR</span>
+      </button>
+      <button class="btn-premium-badge" onclick="switchTab('profile')">⚡ PREMIUM</button>
+      <div class="streak-badge" id="streak-badge" title="Daily Streak">
+        🔥 <span id="streak-count">3</span>
+      </div>
+      <div class="user-avatar" onclick="toggleUserMenu()">D</div>
+    </div>
+  </header>
+
+
+  <main class="app-content">
+    <!-- HOME TAB -->
+    <div id="tab-home" class="tab-content active">
+      <div class="home-greeting">
+        <h2 id="greeting-text">Good morning!</h2>
+        <p>Ready for today's workout?</p>
+      </div>
+
+      <!-- COGNITIVE PROFILE BADGE -->
+      <div class="profile-badge-home" id="profile-badge-home" style="display:none">
+        <div class="pbh-icon" id="pbh-icon">🌐</div>
+        <div class="pbh-info">
+          <div class="pbh-tag">Your Cognitive Profile</div>
+          <div class="pbh-type" id="pbh-type">Balanced Brain</div>
+          <div class="pbh-desc" id="pbh-desc">Play 5 sessions to unlock your profile</div>
+        </div>
+        <button class="pbh-share" onclick="shareBadge()">Share →</button>
+      </div>
+
+      <!-- WEEKLY REPORT -->
+      <div class="weekly-report-card" id="weekly-report">
+        <div class="wr-header">
+          <span class="wr-title">This Week</span>
+          <span class="wr-period" id="wr-period">Loading…</span>
+        </div>
+        <div class="wr-stats">
+          <div class="wr-stat">
+            <span class="wr-stat-val" id="wr-sessions">0</span>
+            <span class="wr-stat-label">Sessions</span>
+          </div>
+          <div class="wr-stat">
+            <span class="wr-stat-val" id="wr-avg-rt">—</span>
+            <span class="wr-stat-label">Avg Speed</span>
+          </div>
+          <div class="wr-stat">
+            <span class="wr-stat-val positive" id="wr-lpi-delta">—</span>
+            <span class="wr-stat-label">LPI Change</span>
+          </div>
+        </div>
+        <!-- 7-day streak calendar bars -->
+        <div class="streak-calendar" id="streak-calendar"></div>
+        <div class="streak-day-labels" id="streak-day-labels"></div>
+        <div class="wr-insight" id="wr-insight">Complete your first workout to unlock weekly insights.</div>
+      </div>
+
+      <div class="daily-workout-card">
+        <div class="workout-header">
+          <span class="workout-label">Today's Workout</span>
+          <span class="workout-games-count" id="workout-count-badge">4 games</span>
+        </div>
+        <div class="workout-games" id="daily-games"><!-- JS --></div>
+        <button class="btn-primary btn-full" id="start-workout-btn" onclick="startDailyWorkout()">Start Workout</button>
+      </div>
+
+
+      <div class="section-header">
+        <h3>Your Performance</h3>
+      </div>
+      <div class="performance-overview">
+        <div class="perf-card" data-category="memory">
+          <div class="perf-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="4" fill="none" stroke="#FF8C42" stroke-width="1.8"/><rect x="4" y="4" width="6" height="6" rx="1.5" fill="#FF8C42"/><rect x="12" y="4" width="6" height="6" rx="1.5" fill="#FF8C42" opacity="0.5"/><rect x="4" y="12" width="6" height="6" rx="1.5" fill="#FF8C42" opacity="0.5"/><rect x="12" y="12" width="6" height="6" rx="1.5" fill="#FF8C42"/></svg>
+          </div>
+          <div class="perf-info">
+            <span class="perf-label">Memory</span>
+            <div class="perf-bar"><div class="perf-fill" style="width:65%"></div></div>
+          </div>
+          <span class="perf-score">650</span>
+        </div>
+        <div class="perf-card" data-category="attention">
+          <div class="perf-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" fill="none" stroke="#10B981" stroke-width="1.8"/><circle cx="11" cy="11" r="4" fill="#10B981"/><line x1="11" y1="1" x2="11" y2="4" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/><line x1="11" y1="18" x2="11" y2="21" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="11" x2="4" y2="11" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/><line x1="18" y1="11" x2="21" y2="11" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="perf-info">
+            <span class="perf-label">Attention</span>
+            <div class="perf-bar"><div class="perf-fill" style="width:72%"></div></div>
+          </div>
+          <span class="perf-score">720</span>
+        </div>
+        <div class="perf-card" data-category="speed">
+          <div class="perf-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 4L5 13h5L9 19l8-9h-5L13 4z" fill="#EF4444"/></svg>
+          </div>
+          <div class="perf-info">
+            <span class="perf-label">Speed</span>
+            <div class="perf-bar"><div class="perf-fill" style="width:58%"></div></div>
+          </div>
+          <span class="perf-score">580</span>
+        </div>
+        <div class="perf-card" data-category="flexibility">
+          <div class="perf-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 3L19 11L11 19L3 11Z" fill="none" stroke="#A78BFA" stroke-width="1.8" stroke-linejoin="round"/><circle cx="11" cy="11" r="3" fill="#A78BFA"/></svg>
+          </div>
+          <div class="perf-info">
+            <span class="perf-label">Flexibility</span>
+            <div class="perf-bar"><div class="perf-fill" style="width:45%"></div></div>
+          </div>
+          <span class="perf-score">450</span>
+        </div>
+        <div class="perf-card" data-category="problem-solving">
+          <div class="perf-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="4" fill="none" stroke="#3B82F6" stroke-width="1.8"/><path d="M7 17L11 7L15 17" stroke="#3B82F6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="8.5" y1="13" x2="13.5" y2="13" stroke="#3B82F6" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="perf-info">
+            <span class="perf-label">Problem Solving</span>
+            <div class="perf-bar"><div class="perf-fill" style="width:60%"></div></div>
+          </div>
+          <span class="perf-score">600</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAMES TAB -->
+    <div id="tab-games" class="tab-content">
+      <h2 class="page-title">Games</h2>
+      <div class="category-filters">
+        <button class="cat-filter active" data-cat="all" onclick="filterGames('all',this)">All</button>
+        <button class="cat-filter" data-cat="memory" onclick="filterGames('memory',this)">Memory</button>
+        <button class="cat-filter" data-cat="attention" onclick="filterGames('attention',this)">Attention</button>
+        <button class="cat-filter" data-cat="speed" onclick="filterGames('speed',this)">Speed</button>
+        <button class="cat-filter" data-cat="flexibility" onclick="filterGames('flexibility',this)">Flexibility</button>
+        <button class="cat-filter" data-cat="problem-solving" onclick="filterGames('problem-solving',this)">Problem Solving</button>
+      </div>
+      <div class="games-grid" id="games-grid"><!-- JS --></div>
+    </div>
+
+    <!-- STATS TAB -->
+    <div id="tab-stats" class="tab-content">
+      <h2 class="page-title">Insights</h2>
+      <div class="stats-bpi">
+        <div class="bpi-circle">
+          <svg viewBox="0 0 140 140" class="bpi-ring">
+            <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="9"/>
+            <circle cx="70" cy="70" r="60" fill="none"
+              stroke="url(#bpiGrad)" stroke-width="9"
+              stroke-dasharray="377" stroke-dashoffset="113"
+              stroke-linecap="round" transform="rotate(-90 70 70)" id="bpi-arc"/>
+            <defs>
+              <linearGradient id="bpiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#00F2FE"/>
+                <stop offset="100%" stop-color="#3B82F6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="bpi-value">
+            <span class="bpi-number" id="bpi-number">612</span>
+            <span class="bpi-label">LPI</span>
+          </div>
+        </div>
+        <p class="bpi-desc">Lumo Performance Index</p>
+      </div>
+
+      <div class="stats-chart-container">
+        <div class="chart-header"><h3>7-Day Progress</h3></div>
+        <canvas id="stats-chart" width="600" height="200"></canvas>
+      </div>
+
+      <div class="stats-games-played">
+        <div class="stat-item">
+          <span class="stat-number" id="total-games-played">24</span>
+          <span class="stat-label">Games Played</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="total-days">8</span>
+          <span class="stat-label">Days Active</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="best-category">Speed</span>
+          <span class="stat-label">Top Area</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE TAB -->
+    <div id="tab-profile" class="tab-content">
+      <h2 class="page-title">Profile</h2>
+      <div class="profile-card">
+        <div class="profile-avatar-lg">D</div>
+        <h3>Demo User</h3>
+        <p class="profile-email">demo@lumo.app</p>
+        <span class="profile-plan">Free Plan</span>
+      </div>
+
+      <div class="profile-section">
+        <h4>Account</h4>
+        <div class="profile-menu">
+          <div class="profile-menu-item">
+            <span>Notifications</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="profile-menu-item">
+            <span>Preferences</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="profile-menu-item" onclick="startOnboarding()">
+            <span>Retake Onboarding Quiz</span>
+            <span class="chevron">›</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYWALL SECTION -->
+      <div class="profile-section">
+        <h4>Subscription</h4>
+        <div class="upgrade-card">
+          <div class="upgrade-card-header">
+            <div>
+              <div class="upgrade-badge">PREMIUM</div>
+              <h4 style="margin-top:8px;">Unlock Full Access</h4>
+            </div>
+          </div>
+          <p>Get unlimited games, detailed session analytics, and personalized daily workouts.</p>
+          <ul class="upgrade-features">
+            <li>All 40+ cognitive games unlocked</li>
+            <li>Millisecond reaction time reports</li>
+            <li>Personalized adaptive workout plans</li>
+            <li>Monthly progress comparison reports</li>
+            <li>Priority customer support</li>
+          </ul>
+          <div class="upgrade-pricing">
+            <div class="price-option">
+              <div class="price-period">Monthly</div>
+              <div class="price-amount">$11.99</div>
+              <div class="price-per">per month</div>
+            </div>
+            <div class="price-option popular">
+              <div class="popular-tag">BEST VALUE</div>
+              <div class="price-period">Annual</div>
+              <div class="price-amount">$59.99</div>
+              <div class="price-per">$5/month · Save 58%</div>
+            </div>
+          </div>
+          <button class="btn-coral btn-full">Start 14-Day Free Trial</button>
+          <p class="upgrade-fine-print">
+            No charge during trial · Cancel anytime in one click<br>
+            No dark patterns — your card is never automatically charged without confirmation.
+          </p>
+        </div>
+      </div>
+
+      <button class="btn-text btn-full" onclick="logout()" style="margin-top:10px;color:#EF4444;">Log Out</button>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-tab="home" onclick="switchTab('home',this)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" data-tab="games" onclick="switchTab('games',this)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+      <span>Games</span>
+    </button>
+    <button class="nav-item" data-tab="stats" onclick="switchTab('stats',this)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      <span>Insights</span>
+    </button>
+    <button class="nav-item" data-tab="profile" onclick="switchTab('profile',this)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profile</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ============ GAME PLAY SCREEN ============ -->
+<div id="game-screen" class="page">
+  <header class="game-header">
+    <button class="btn-icon" onclick="requestExitGame()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <span class="game-title" id="game-title">Game</span>
+    <!-- Cognitive Load Meter -->
+    <div class="cog-load-meter" id="cog-load-meter">
+      <div class="cog-load-row">
+        <span class="cog-load-label" id="cog-load-label">LOW</span>
+        <span class="cog-load-icon">🧠</span>
+      </div>
+      <div class="cog-load-bar">
+        <div class="cog-load-fill" id="cog-load-fill" style="width:15%"></div>
+      </div>
+    </div>
+    <span class="game-score-display" id="game-score-display">0</span>
+    <button class="lang-switch-btn" onclick="toggleLanguage()" title="Dili Değiştir / Change Language" style="padding: 4px 10px; font-size: 11px;">
+      🌐 <span id="game-lang-label">TR</span>
+    </button>
+  </header>
+
+  <div class="game-area" id="game-area">
+    <!-- Game content rendered by JS -->
+  </div>
+</div>
+
+<!-- ============ SESSION END / RESULT SCREEN ============ -->
+<div id="result-screen" class="page">
+  <div class="result-container">
+    <div class="result-header">
+      <div class="result-badge" id="result-badge">🏆</div>
+      <div class="result-title" id="result-title">Outstanding!</div>
+      <div class="result-subtitle" id="result-subtitle">Memory Matrix</div>
+    </div>
+
+    <div class="result-score-ring">
+      <svg viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10"/>
+        <circle cx="70" cy="70" r="58" fill="none"
+          stroke="url(#resGrad)" stroke-width="10"
+          stroke-dasharray="364" stroke-dashoffset="364"
+          stroke-linecap="round" transform="rotate(-90 70 70)" id="result-arc"/>
+        <defs>
+          <linearGradient id="resGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00F2FE"/>
+            <stop offset="100%" stop-color="#10B981"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="result-score-inner">
+        <span class="result-score-value" id="result-score">0</span>
+        <span class="result-score-label">pts</span>
+      </div>
+    </div>
+
+    <div class="result-stats" id="result-stats">
+      <!-- 4 stat cards from JS -->
+    </div>
+
+    <div class="result-personal-best" id="result-pb" style="display:none;">
+      <span>🔥</span>
+      <span id="result-pb-text">New Personal Best!</span>
+    </div>
+
+    <div class="result-rt-chart" id="result-rt-chart" style="display:none;">
+      <div class="result-rt-title">Reaction Time per Round</div>
+      <div class="rt-bars" id="rt-bars-container"></div>
+    </div>
+
+    <div class="result-insight">
+      <span class="result-insight-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </span>
+      <p id="insight-text">Working memory helps you hold and manipulate information actively in mind.</p>
+    </div>
+
+    <!-- SESSION DEBRIEF (Lumosity-beating feature) -->
+    <div class="session-debrief" id="session-debrief">
+      <button class="session-debrief-toggle" onclick="toggleDebrief()">
+        <span>📊 Detailed Analysis</span>
+        <svg class="debrief-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="session-debrief-body">
+        <div class="debrief-inner">
+          <div>
+            <div class="debrief-section-title">⚡ Fastest Responses</div>
+            <div class="debrief-trial-list" id="debrief-fast"></div>
+          </div>
+          <div>
+            <div class="debrief-section-title">🐢 Slowest Responses</div>
+            <div class="debrief-trial-list" id="debrief-slow"></div>
+          </div>
+          <div>
+            <div class="debrief-section-title">📈 vs. Last Session</div>
+            <div class="debrief-compare" id="debrief-compare">Complete another session to compare.</div>
+          </div>
+          <!-- Transparent science callout -->
+          <div class="science-note">
+            <span class="science-note-icon">🔬</span>
+            <div class="science-note-text">
+              <strong>What does this measure?</strong> Reaction time variance (the difference between your fastest and slowest responses) is a stronger predictor of cognitive consistency than average speed alone.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-actions" id="result-actions">
+      <button class="btn-primary btn-full" onclick="playAgain()">Play Again</button>
+      <button class="btn-secondary btn-full" onclick="exitGameConfirmed()">Back to Games</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ EXIT CONFIRM DIALOG ============ -->
+<div id="exit-dialog" style="display:none;" class="exit-dialog-overlay" onclick="closeExitDialog(event)">
+  <div class="exit-dialog">
+    <h3>Leave this game?</h3>
+    <p>Your current round progress will be lost. Your high score is already saved.</p>
+    <div class="exit-dialog-btns">
+      <button class="btn-coral btn-full" onclick="exitGameConfirmed()">Yes, Exit</button>
+      <button class="btn-ghost btn-full" onclick="closeExitDialog()">Keep Playing</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ KNOWLEDGE QUIZ OVERLAY ============ -->
+<div id="knowledge-quiz-overlay" style="display:none;" class="knowledge-quiz-overlay">
+  <div class="knowledge-quiz-card">
+    <div class="kq-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      Brain Fact
+    </div>
+    <div class="kq-question" id="kq-question"></div>
+    <div class="kq-options" id="kq-options"></div>
+    <div class="kq-explanation" id="kq-explanation">
+      <div id="kq-explain-text"></div>
+      <div class="kq-source" id="kq-source"></div>
+    </div>
+    <button class="btn-primary btn-full" id="kq-continue-btn" onclick="closeKnowledgeQuiz()">Continue Training →</button>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/games.js"></script>
+</body>
+</html>
