@@ -3,111 +3,131 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useT } from '../core/store'
 import { CATEGORIES, GAMES, isPlayable, type CategoryId } from '../games/registry'
 import GameIcon from '../components/GameIcon'
-import Mascot from '../components/Mascot'
+
+const LIT_TILES = [2, 6, 8, 12, 18, 21]
 
 export default function Landing() {
   const t = useT()
   const nav = useNavigate()
   const playable = GAMES.filter(isPlayable)
   const catIds = Object.keys(CATEGORIES) as CategoryId[]
-  // Vitrin sırası her ziyarette karışır: hiçbir oyun "varsayılan ilk" olmasın
-  const shown = useMemo(() => [...playable].sort(() => Math.random() - 0.5).slice(0, 11), []) // eslint-disable-line react-hooks/exhaustive-deps
+  // Galeri sırası her ziyarette karışır: hiçbir oyun "varsayılan ilk" olmasın
+  const shown = useMemo(() => [...playable].sort(() => Math.random() - 0.5).slice(0, 10), []) // eslint-disable-line react-hooks/exhaustive-deps
   const surprise = () => nav(`/oyun/${playable[Math.floor(Math.random() * playable.length)].id}`)
-  const ribbon = [...GAMES, ...GAMES]
 
   return (
     <>
-      <section className="hero3">
-        <div className="hero3-text">
-          <span className="sticker rot-l">{t({ tr: 'Reklam yok · Kilit yok · Hesap şart değil', en: 'No ads · No locks · No account needed' })}</span>
-          <h1>
-            {t({ tr: 'Zihnin için ', en: 'Give your mind ' })}
-            <mark>{t({ tr: 'günlük 10 dakika', en: 'ten minutes a day' })}</mark>
-            {t({ tr: ' ışık.', en: ' of light.' })}
-          </h1>
-          <p className="lead">
-            {t({
-              tr: 'Hafıza, dikkat, hız ve esnekliği çalıştıran kısa oyunlar. Hepsi açık, hepsi ücretsiz. Seviyen sana göre ayarlanır, tepki süren ölçülür.',
-              en: 'Short games that train memory, attention, speed and flexibility. All open, all free. Difficulty adapts to you and your reaction time is measured.',
-            })}
-          </p>
-          <div className="row left">
-            <Link to="/fit-test" className="btn primary big">{t({ tr: 'Fit Test ile başla', en: 'Start with the Fit Test' })}</Link>
-            <button className="btn ghost big" onClick={surprise}>{t({ tr: 'Beni şaşırt ✦', en: 'Surprise me ✦' })}</button>
-          </div>
-          <ul className="stat-pills">
-            <li><b>{GAMES.length}</b> {t({ tr: 'oyun', en: 'games' })}</li>
-            <li><b>{catIds.length}</b> {t({ tr: 'beceri alanı', en: 'skill areas' })}</li>
-            <li><b>0</b> {t({ tr: 'reklam', en: 'ads' })}</li>
-          </ul>
+      <section className="hero4">
+        <div className="hero4-glow" aria-hidden />
+        <p className="eyebrow rise">{t({ tr: 'Ücretsiz beyin antrenmanı', en: 'Free brain training' })}</p>
+        <h1 className="rise d1">
+          {t({ tr: 'Zihnin için ', en: 'A little light for ' })}
+          <em>{t({ tr: 'her gün biraz ışık.', en: 'your mind, every day.' })}</em>
+        </h1>
+        <p className="lead rise d2">
+          {t({
+            tr: 'Hafıza, dikkat, hız ve esnekliği çalıştıran kısa oyunlar. Hepsi açık, hiç reklam yok, seviyen sana göre ayarlanır.',
+            en: 'Short games that train memory, attention, speed and flexibility. Everything open, no ads, difficulty adapts to you.',
+          })}
+        </p>
+        <div className="row rise d3">
+          <Link to="/fit-test" className="btn primary big">{t({ tr: 'Fit Test ile başla', en: 'Start with the Fit Test' })}</Link>
+          <button className="text-link" onClick={surprise}>{t({ tr: 'Beni şaşırt ›', en: 'Surprise me ›' })}</button>
         </div>
 
-        <div className="hero3-art" aria-hidden>
-          <div className="blob" />
-          <div className="mascot-wrap"><Mascot size={260} track /></div>
-          <div className="stk s1">
-            <div className="mini-grid">{Array.from({ length: 9 }, (_, i) => <i key={i} className={[0, 4, 5].includes(i) ? 'on' : ''} />)}</div>
+        <div className="device-stage rise d4" aria-hidden>
+          <div className="device">
+            <div className="device-screen">
+              <div className="device-top">
+                <span className="dots"><i /><i /><i /></span>
+                <span>Memory Matrix</span>
+                <b>1.240</b>
+              </div>
+              <div className="device-bar"><i /></div>
+              <div className="device-grid">
+                {Array.from({ length: 25 }, (_, i) => <i key={i} style={{ '--d': `${LIT_TILES.includes(i) ? (LIT_TILES.indexOf(i) % 3) * 0.1 : 0}s` } as React.CSSProperties} className={LIT_TILES.includes(i) ? 'on' : ''} />)}
+              </div>
+            </div>
           </div>
-          <div className="stk s2"><span>KAR</span><em>…puz</em></div>
-          <div className="stk s3"><b>←</b><b className="hot">→</b></div>
-          <div className="stk s4">+245<small>312 ms</small></div>
-          <div className="stk s5">×1.5</div>
-        </div>
-      </section>
-
-      <div className="ribbon" aria-hidden>
-        <div className="ribbon-track">
-          {ribbon.map((g, i) => (
-            <span key={i} style={{ '--c': CATEGORIES[g.category].color } as React.CSSProperties}><i />{g.name}</span>
-          ))}
-        </div>
-      </div>
-
-      <section className="block-sec" id="try">
-        <div className="try-head">
-          <div>
-            <h2>{t({ tr: 'İstediğinle başla', en: 'Start with any game' })}</h2>
-            <p className="muted">{t({ tr: 'Sıra yok, kilit yok. Dokun ve oyna.', en: 'No order, no locks. Tap and play.' })}</p>
-          </div>
-          <Link to="/oyunlar" className="btn ghost">{t({ tr: `Tüm ${GAMES.length} oyun →`, en: `All ${GAMES.length} games →` })}</Link>
-        </div>
-        <div className="try-grid">
-          {shown.map((g, i) => (
-            <Link key={g.id} to={`/oyun/${g.id}`} className="try-card" style={{ '--c': CATEGORIES[g.category].color, '--r': `${[-1.6, 1.2, -0.8, 1.8, -1.2][i % 5]}deg` } as React.CSSProperties}>
-              <GameIcon category={g.category} color={CATEGORIES[g.category].color} size={46} />
-              <b>{g.name}</b>
-              <span>{t(CATEGORIES[g.category].name)}</span>
-            </Link>
-          ))}
+          <div className="float-chip c1"><small>{t({ tr: 'Tepki süren', en: 'Reaction time' })}</small><b>312 ms</b></div>
+          <div className="float-chip c2"><small>{t({ tr: 'Seri', en: 'Streak' })}</small><b>×1.5</b></div>
+          <div className="float-chip c3"><small>{t({ tr: 'Seviye', en: 'Level' })}</small><b>4 ↑</b></div>
         </div>
       </section>
 
       <section className="block-sec">
-        <h2>{t({ tr: `${catIds.length} beceri, tek antrenman`, en: `${catIds.length} skills, one workout` })}</h2>
+        <div className="sec-head">
+          <h2>{t({ tr: 'Sade. Açık. Sana göre.', en: 'Simple. Open. Yours.' })}</h2>
+          <p>{t({ tr: 'Kilitli oyun, abonelik ya da reklam yok. Sadece iyi tasarlanmış görevler.', en: 'No locked games, no subscription, no ads. Just well-designed tasks.' })}</p>
+        </div>
+        <div className="bento">
+          <div className="b1">
+            <div>
+              <span className="big-n">{GAMES.length}</span>
+              <h3>{t({ tr: 'oyun, hepsi açık.', en: 'games, all open.' })}</h3>
+              <p>{t({ tr: `${catIds.length} beceri alanında kısa, odaklı görevler.`, en: `Short, focused tasks across ${catIds.length} skill areas.` })}</p>
+            </div>
+            <div className="dot-cloud">
+              {catIds.map((c) => <span key={c} style={{ '--c': CATEGORIES[c].color } as React.CSSProperties}><i />{t(CATEGORIES[c].name)}</span>)}
+            </div>
+          </div>
+          <div className="b2">
+            <div>
+              <h3>{t({ tr: 'Seviyen sana uyar.', en: 'Adapts to you.' })}</h3>
+              <p>{t({ tr: 'Doğruluğuna göre yükselir ya da kolaylaşır.', en: 'Rises or eases with your accuracy.' })}</p>
+            </div>
+            <div className="level-bars" aria-hidden><i /><i /><i /><i /><i /></div>
+          </div>
+          <div className="b3">
+            <div>
+              <h3>{t({ tr: 'Verin cihazında.', en: 'Your data stays here.' })}</h3>
+              <p>{t({ tr: 'Sunucuya hiçbir şey gönderilmez.', en: 'Nothing is sent to a server.' })}</p>
+            </div>
+            <svg className="lock" viewBox="0 0 48 48" fill="none" aria-hidden><rect x="9" y="21" width="30" height="21" rx="6" fill="currentColor" opacity=".18" stroke="currentColor" strokeWidth="2.5" /><path d="M16 21v-5a8 8 0 0116 0v5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" /><circle cx="24" cy="31" r="3" fill="currentColor" /></svg>
+          </div>
+          <div className="b4">
+            <div>
+              <h3>{t({ tr: 'Ne ölçtüğünü bilirsin.', en: 'Know what it measures.' })}</h3>
+              <p>{t({ tr: 'Her oyun hangi bilişsel görevi ölçtüğünü açıkça söyler. Tıbbi iddia yok.', en: 'Each game says which cognitive task it is based on. No medical claims.' })}</p>
+            </div>
+            <div className="row2">
+              {['Flanker', 'Stroop', 'n-back', t({ tr: 'Sürekli tanıma', en: 'Continuous recognition' }), t({ tr: 'Kural değişimi', en: 'Rule switching' })].map((x) => <span key={x}>{x}</span>)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="block-sec">
+        <div className="sec-head">
+          <h2>{t({ tr: 'Birini seç, başla.', en: 'Pick one and begin.' })}</h2>
+          <p>{t({ tr: 'Sıra yok, kilit yok.', en: 'No order, no locks.' })}</p>
+        </div>
+        <div className="gallery">
+          {shown.map((g) => (
+            <Link key={g.id} to={`/oyun/${g.id}`} className="g-card" style={{ '--c': CATEGORIES[g.category].color } as React.CSSProperties}>
+              <GameIcon category={g.category} color={CATEGORIES[g.category].color} size={52} />
+              <div>
+                <small>{t(CATEGORIES[g.category].name)}</small>
+                <b>{g.name}</b>
+                <span className="d">{t(g.description)}</span>
+                <div className="go">{t({ tr: 'Oyna ›', en: 'Play ›' })}</div>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="row" style={{ marginTop: 8 }}>
+          <Link to="/oyunlar" className="btn ghost">{t({ tr: `Tüm ${GAMES.length} oyunu gör`, en: `See all ${GAMES.length} games` })}</Link>
+        </div>
+      </section>
+
+      <section className="block-sec">
+        <div className="sec-head"><h2>{t({ tr: 'Beceri alanları', en: 'Skill areas' })}</h2></div>
         <div className="cat-row">
           {catIds.map((c) => (
             <Link to="/oyunlar" key={c} className="cat" style={{ '--c': CATEGORIES[c].color } as React.CSSProperties}>
-              <span className="cat-n">{GAMES.filter((g) => g.category === c).length}</span>
-              <b>{t(CATEGORIES[c].name)}</b>
-              <span className="cat-sub">{t({ tr: 'oyun', en: 'games' })}</span>
+              <span className="cat-dot" />
+              <span><b>{t(CATEGORIES[c].name)}</b><span className="cat-sub">{GAMES.filter((g) => g.category === c).length} {t({ tr: 'oyun', en: 'games' })}</span></span>
             </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="block-sec">
-        <h2>{t({ tr: 'Neden Lumo?', en: 'Why Lumo?' })}</h2>
-        <div className="why">
-          {[
-            [{ tr: 'Hepsi açık', en: 'Everything open' }, { tr: 'Abonelik, kilit, reklam yok. Hangi oyunu istersen onu oyna.', en: 'No subscription, no locks, no ads. Play whichever game you want.' }],
-            [{ tr: 'Ne ölçtüğünü bil', en: 'Know what it measures' }, { tr: 'Her oyunda hangi görevi ölçtüğü açıkça yazar, tıbbi iddia yok.', en: 'Every game states what task it measures; no medical claims.' }],
-            [{ tr: 'Sana göre ayarlanır', en: 'Adapts to you' }, { tr: 'Seviye doğruluğuna göre yükselir ya da düşer; ne çok kolay ne imkânsız.', en: 'Difficulty rises or falls with your accuracy: never trivial, never impossible.' }],
-            [{ tr: 'Verin cihazında', en: 'Your data stays here' }, { tr: 'Sunucuya veri gönderilmez, skorların senin tarayıcında durur.', en: 'Nothing is sent to a server; your scores stay in your browser.' }],
-          ].map(([h, p], i) => (
-            <div className="why-item" key={i} style={{ '--n': `"${i + 1}"` } as React.CSSProperties}>
-              <h3>{t(h)}</h3>
-              <p>{t(p)}</p>
-            </div>
           ))}
         </div>
       </section>

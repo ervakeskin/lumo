@@ -48,7 +48,7 @@ Kaynak: Lumosity'nin Play Store yorumları (~155 bin satırlık yerel döküm; t
 | Star Search | 5 → 7 renk |
 | Familiar Faces | İsim 24 → 36, sipariş 6 → 9 (kurabiye, dondurma, meyve suyu) |
 | Word Bubbles | Kök 8 → 56, sözcük ~830. Baloncuklar artık sabit yuvalara (4×3) yerleşir, çakışmıyor; uzunluğa göre renk/boyut, kök zamanlayıcı çubuğu, "en uzun sözcük" rozeti. Süre artık 90 sn'ye sabitli değil |
-| Görsel kimlik | Yeni tema (`theme.css`): krem kâğıt + kalın mürekkep çizgi + sert gölge + çıkartma hissi; Bricolage Grotesque başlıklar. Maskot **Lumo** (parlayan ateş böceği: imleci takip eden gözler, göz kırpma, kanat çırpma) logoda, ana sayfada ve sonuç ekranında. Ana sayfada kayan oyun şeridi, kategori renkli kartlar. Oyun ekranları ayrı "gece odası": koyu, oyunun kategori renginde parlayan zemin |
+| Görsel kimlik | Sade, Apple esintili tema (`theme.css`): aydınlık zemin, büyük tipografi (Inter / SF), buzlu cam navbar, pill butonlar, yumuşak gölge. Ana sayfada gradient başlık, cihaz maketi içinde canlı Memory Matrix önizlemesi, bento kartlar ve yatay oyun galerisi; oyun ikonları iOS tarzı squircle. Oyun ekranları ayrı koyu "oda": zemin ve vurgu rengi oyunun kategori rengi |
 | Arayüz | PRO etiketleri kaldırıldı (kütüphane kartları, fiyat sayfası tek "herkes için ücretsiz" kartı). Oyun ekranı pencere yüksekliğine uyar: panolar `dvh`'ye göre küçülür, kısa ekranlarda yön tuşları ve cevap butonları görünür kalır (Penguin Pursuit'te doğrulandı) |
 | Ortak | `useLater` kancası: 10 oyunda sonraki deneme zamanlayıcıları duraklatmada donar, oyun kapanınca temizlenir. Pinball Recall interval sızıntısı kapatıldı |
 

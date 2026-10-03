@@ -1,4 +1,3 @@
-import Mascot from '../components/Mascot'
 import { useEffect, useState } from 'react'
 import { animate, motion } from 'framer-motion'
 import { CATEGORIES, type GameMeta } from '../games/registry'
@@ -65,7 +64,6 @@ export default function ResultScreen({ game, data, onReplay, onLibrary }: { game
     <div className="result">
       <div className="result-top"><BackButton to="/oyunlar" replace /></div>
       <motion.div className="glass result-card" initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        <div className="result-mascot"><Mascot size={92} mood={isNewBest ? 'wow' : 'happy'} /></div>
         <div className="muted">{game.name}</div>
         <div className="big-score" style={{ color }}>{shown.toLocaleString()}</div>
         {isNewBest && <div className="badge-best">★ {t({ tr: 'Yeni kişisel rekor!', en: 'New personal best!' })}</div>}
